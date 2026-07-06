@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c0f0e">
+  <title>About Yello — your health twin, and the network behind it</title>
+  <meta name="description" content="Yello is a curated preventive health network in Hyderabad, India. Every test you take calibrates your health twin — a living picture of your body that you, your family and your doctor can see sharpen over time.">
+  <link rel="canonical" href="https://yello.health/about">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Yello">
+  <meta property="og:title" content="About Yello — your health twin, and the network behind it">
+  <meta property="og:description" content="Preventive health for the healthy 95%. Every test calibrates your health twin — a living picture of your body that sharpens over time.">
+  <meta property="og:url" content="https://yello.health/about">
+  <meta property="og:image" content="https://yello.health/assets/yello.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About Yello — your health twin">
+  <meta name="twitter:description" content="Preventive health for the healthy 95%. Every test calibrates your health twin.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "DiagnosticLab",
+    "name": "Yello",
+    "legalName": "Yello Diagnostic Labs Pvt. Ltd.",
+    "url": "https://yello.health",
+    "logo": "https://yello.health/assets/yello.png",
+    "description": "Yello is a curated preventive health network in Hyderabad, India. Diagnostic and imaging centres held to one quality bar, reports explained in plain language, and one lifelong health record — your health twin — that sharpens with every test.",
+    "medicalSpecialty": ["Diagnostic", "Radiography"],
+    "areaServed": {
+      "@type": "City",
+      "name": "Hyderabad",
+      "containedInPlace": { "@type": "State", "name": "Telangana" }
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Hyderabad",
+      "addressRegion": "Telangana",
+      "addressCountry": "IN"
+    },
+    "knowsAbout": ["preventive health", "diagnostics", "medical imaging", "health records", "digital health twin"],
+    "slogan": "Stay ahead of illness."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Yello?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yello is a curated preventive health network in Hyderabad, India. We hold every diagnostic and imaging centre on the network to one quality bar, explain every report in plain language, include a doctor consult with every booking, and keep your family's health record in one place for life." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a health twin?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Your health twin is the living picture of your body that Yello builds from your test history. Every test is a calibration event: it adds a data point, updates your trends, and makes the twin sharper. You see it as a timeline of tests, trend lines for every marker, and one view per family member." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Yello approach preventive health?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Prevention at Yello is a rhythm, not a one-off test: programs that repeat on a schedule, results compared against your own history rather than only population ranges, plain-language explanations for every number, and a doctor to talk it through. We measure ourselves by families staying well, not tests sold." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my health data safe with Yello?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Yello follows India's Digital Personal Data Protection Act, 2023. Your records belong to you: you choose who sees them, you can export them, and you can ask for them to be deleted. Records are kept ABHA-ready so they work with India's national health ecosystem." }
+      },
+      {
+        "@type": "Question",
+        "name": "Where does Yello operate?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yello is starting in Hyderabad, Telangana, with a small curated network of partner centres across the city, and will expand city by city. Home sample collection is available inside the service area." }
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      --ink: #0c0f0e;
+      --ink-2: #121716;
+      --pine: #10201c;
+      --bone: #f2eee4;
+      --bone-dim: rgba(242, 238, 228, 0.62);
+      --bone-faint: rgba(242, 238, 228, 0.38);
+      --yello: #ffc40c;
+      --teal: #2dd4bf;
+      --line: rgba(242, 238, 228, 0.14);
+      --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      color: var(--bone);
+      font-family: "Inter", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { font-family: "Bricolage Grotesque", "Inter", sans-serif; line-height: 1.08; letter-spacing: -0.01em; }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+    /* ---- top bar ---- */
+    .bar {
+      position: sticky; top: 0; z-index: 20;
+      background: color-mix(in srgb, var(--ink) 82%, transparent);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .bar-inner { display: flex; align-items: center; gap: 20px; padding: 14px 24px; max-width: 1120px; margin: 0 auto; }
+    .bar img { height: 26px; }
+    .bar-links { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+    .bar-links a {
+      text-decoration: none; font-size: 14px; font-weight: 600; color: var(--bone-dim);
+      padding: 8px 14px; border-radius: 999px; transition: color .2s, background .2s;
+    }
+    .bar-links a:hover { color: var(--bone); background: rgba(242,238,228,0.07); }
+    .bar-links a.cta { background: var(--yello); color: #201a02; }
+    .bar-links a.cta:hover { background: #ffd044; color: #201a02; }
+
+    /* ---- hero ---- */
+    .hero { position: relative; overflow: hidden; padding: 110px 0 90px; }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background:
+        radial-gradient(52% 60% at 72% 42%, rgba(45, 212, 191, 0.10), transparent 65%),
+        radial-gradient(40% 45% at 24% 75%, rgba(255, 196, 12, 0.07), transparent 60%);
+      pointer-events: none;
+    }
+    .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--yello); margin-bottom: 22px; }
+    .kicker::before { content: "— "; }
+    .hero h1 { font-size: clamp(44px, 7vw, 84px); font-weight: 800; max-width: 13ch; }
+    .hero h1 em { font-style: normal; color: var(--yello); }
+    .hero p.sub { margin-top: 26px; max-width: 52ch; font-size: 19px; color: var(--bone-dim); }
+    .hero-grid { position: relative; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: center; }
+
+    /* the twin figure: dotted silhouette that sharpens */
+    .twin-stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .twin-stage svg { width: min(240px, 60vw); height: auto; }
+    .twin-dot { fill: var(--teal); opacity: 0.16; transition: opacity 1.1s ease; }
+    .twin-dot.lit { opacity: 0.92; }
+    .twin-dot.cal { fill: var(--yello); }
+    .res-meter { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; color: var(--bone-faint); text-transform: uppercase; }
+    .res-meter strong { color: var(--yello); font-weight: 600; }
+
+    /* ---- chapters ---- */
+    .chapter { border-top: 1px solid var(--line); padding: 88px 0; }
+    .ch-head { display: grid; grid-template-columns: 200px 1fr; gap: 32px; margin-bottom: 44px; }
+    .ch-no { font-family: var(--mono); font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--bone-faint); padding-top: 10px; }
+    .chapter h2 { font-size: clamp(30px, 4vw, 46px); font-weight: 700; max-width: 20ch; }
+    .chapter .lede { margin-top: 18px; font-size: 18px; color: var(--bone-dim); max-width: 58ch; }
+    .chapter .lede a { color: var(--teal); }
+
+    .prose { max-width: 66ch; color: var(--bone-dim); font-size: 17px; }
+    .prose p + p { margin-top: 18px; }
+    .prose strong { color: var(--bone); }
+
+    /* principle cards */
+    .principles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 12px; }
+    .principle {
+      border: 1px solid var(--line); border-radius: 18px; padding: 26px;
+      background: linear-gradient(160deg, var(--ink-2), var(--ink) 70%);
+    }
+    .principle h3 { font-size: 19px; margin-bottom: 10px; }
+    .principle p { color: var(--bone-dim); font-size: 15px; }
+    .principle .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--yello); display: block; margin-bottom: 14px; }
+
+    /* twin chapter: calibration timeline */
+    .cal-line { position: relative; margin: 54px 0 20px; height: 2px; background: var(--line); }
+    .cal-line .fill { position: absolute; inset: 0 auto 0 0; width: 62%; background: linear-gradient(90deg, var(--teal), var(--yello)); }
+    .cal-events { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 26px; }
+    .cal-event { position: relative; padding-top: 20px; }
+    .cal-event::before {
+      content: ""; position: absolute; top: -33px; left: 2px; width: 10px; height: 10px; border-radius: 50%;
+      background: var(--yello); box-shadow: 0 0 0 5px rgba(255, 196, 12, 0.15);
+    }
+    .cal-event.future::before { background: var(--ink); border: 2px solid var(--bone-faint); box-shadow: none; }
+    .cal-event h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .cal-event p { font-size: 13.5px; color: var(--bone-faint); }
+    .cal-event .when { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal); display: block; margin-bottom: 8px; }
+    .cal-event.future .when { color: var(--bone-faint); }
+
+    /* what you see: instrument cards */
+    .instruments { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 44px; }
+    .instrument {
+      border: 1px solid var(--line); border-radius: 18px; padding: 24px;
+      background: var(--pine);
+    }
+    .instrument .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); display: block; margin-bottom: 12px; }
+    .instrument h3 { font-size: 17px; margin-bottom: 8px; }
+    .instrument p { font-size: 14px; color: var(--bone-dim); }
+    .spark { margin-top: 18px; display: flex; align-items: flex-end; gap: 5px; height: 40px; }
+    .spark i { flex: 1; background: rgba(45, 212, 191, 0.35); border-radius: 3px 3px 0 0; }
+    .spark i.hi { background: var(--yello); }
+
+    /* twin horizon ladder */
+    .horizon { margin-top: 64px; border-top: 1px dashed var(--line); padding-top: 44px; }
+    .horizon-tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
+    .horizon-lede { max-width: 62ch; color: var(--bone-dim); font-size: 16px; margin-bottom: 30px; }
+    .horizon-ladder { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .rung {
+      border: 1px solid var(--line); border-radius: 16px; padding: 22px 20px;
+      background: var(--ink-2); position: relative;
+    }
+    .rung.on { background: linear-gradient(160deg, rgba(255,196,12,0.08), var(--ink-2) 70%); border-color: rgba(255,196,12,0.3); }
+    .rung-state { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bone-faint); display: block; margin-bottom: 12px; }
+    .rung.on .rung-state { color: var(--yello); }
+    .rung h4 { font-size: 16px; margin-bottom: 8px; }
+    .rung p { font-size: 13.5px; color: var(--bone-dim); }
+
+    /* trust list */
+    .trust { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .trust div { border: 1px solid var(--line); border-radius: 18px; padding: 24px; }
+    .trust h3 { font-size: 16px; margin-bottom: 8px; }
+    .trust p { font-size: 14px; color: var(--bone-dim); }
+
+    /* FAQ */
+    details {
+      border-top: 1px solid var(--line); padding: 22px 4px;
+    }
+    details:last-of-type { border-bottom: 1px solid var(--line); }
+    summary {
+      cursor: pointer; list-style: none; font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 19px; font-weight: 600; display: flex; justify-content: space-between; align-items: center;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; font-weight: 500; color: var(--yello); font-size: 24px; transition: transform .25s; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { margin-top: 14px; max-width: 66ch; color: var(--bone-dim); }
+
+    /* closing CTA */
+    .close-cta { padding: 100px 0 120px; text-align: center; }
+    .close-cta h2 { font-size: clamp(32px, 5vw, 56px); font-weight: 800; }
+    .close-cta p { margin: 18px auto 34px; max-width: 44ch; color: var(--bone-dim); }
+    .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; text-decoration: none; font-weight: 700; font-size: 15px;
+      padding: 14px 28px; border-radius: 999px; transition: transform .15s ease, background .2s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.solid { background: var(--yello); color: #201a02; }
+    .btn.ghost { border: 1px solid var(--line); color: var(--bone); }
+
+    footer.about-foot { border-top: 1px solid var(--line); padding: 28px 0 40px; }
+    footer.about-foot .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--bone-faint); }
+    footer.about-foot a { color: var(--bone-dim); text-decoration: none; }
+    footer.about-foot a:hover { color: var(--bone); }
+
+    /* reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .twin-dot { transition: none; }
+    }
+    @media (max-width: 860px) {
+      .hero { padding: 70px 0 60px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .ch-head { grid-template-columns: 1fr; gap: 10px; }
+      .principles, .instruments, .trust, .cal-events, .horizon-ladder { grid-template-columns: 1fr; }
+      .cal-events { gap: 26px; }
+      .cal-event::before { top: 6px; left: -18px; }
+      .cal-event { padding-top: 0; padding-left: 12px; }
+      .cal-line { display: none; }
+      .bar-links a:not(.cta) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bar">
+    <div class="bar-inner">
+      <a href="/"><img src="/assets/yello.png" alt="Yello"></a>
+      <div class="bar-links">
+        <a href="/#browse">Lab tests</a>
+        <a href="/#packages">Packages</a>
+        <a href="/centre">For centres</a>
+        <a class="cta" href="/#home">Book a health check</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">About Yello</p>
+        <h1>Illness announces itself <em>years</em> before it arrives.</h1>
+        <p class="sub">Most of healthcare waits for symptoms. Yello is built for the years before them — a preventive health network where every test you take makes the picture of your body sharper.</p>
+      </div>
+      <div class="twin-stage" aria-hidden="true">
+        <svg id="twinFig" viewBox="0 0 120 200" role="img" aria-label="A human figure drawn in dots, sharpening as tests are added"></svg>
+        <p class="res-meter">twin resolution <strong id="resPct">—</strong></p>
+      </div>
+    </div>
+  </header>
+
+  <section class="chapter reveal" id="why">
+    <div class="wrap">
+      <div class="ch-head">
+        <span class="ch-no">01 · Why we exist</span>
+        <div>
+          <h2>Built for the healthy 95%.</h2>
+          <p class="lede">India's healthcare is designed for the 5% who are already ill. The other 95% get an annual PDF, a red number with no explanation, and silence until something goes wrong.</p>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Yello started with a simple observation from inside radiology and diagnostics: the information that could keep a family ahead of illness usually exists — scattered across labs, lost in reports nobody explains, disconnected from last year's numbers.</p>
+        <p>So we built the network we wanted for our own families: <strong>diagnostic and imaging centres held to one quality bar</strong>, reports rebuilt in plain language, a doctor to talk every result through, and one record that follows you for life — not the lab.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter reveal" id="approach">
+    <div class="wrap">
+      <div class="ch-head">
+        <span class="ch-no">02 · How we work</span>
+        <div>
+          <h2>Prevention is a rhythm, not a test.</h2>
+          <p class="lede">A single checkup is a snapshot. Staying well is a practice — and everything in Yello is designed around that difference.</p>
+        </div>
+      </div>
+      <div class="principles">
+        <div class="principle">
+          <span class="tag">Programs over one-offs</span>
+          <h3>Health on a schedule that fits your risk</h3>
+          <p>Your age, history and family pattern decide what to check and when — an annual deep check, focused follow-ups in between. You stop deciding "which test"; the program carries you.</p>
+        </div>
+        <div class="principle">
+          <span class="tag">Your baseline, not the average</span>
+          <h3>Compared against you, first</h3>
+          <p>A number that's "in range" can still be drifting the wrong way for you. Every result is read against your own history before the population range.</p>
+        </div>
+        <div class="principle">
+          <span class="tag">Never a number alone</span>
+          <h3>An answer, not a PDF</h3>
+          <p>No red value reaches you without a plain-language explanation beside it — what changed, what it means, what to do. A doctor consult comes with every booking to talk it through.</p>
+        </div>
+        <div class="principle">
+          <span class="tag">One quality bar</span>
+          <h3>A network you don't have to second-guess</h3>
+          <p>Every centre on Yello is vetted, accreditation-graded and continuously measured — same standards, same machines discipline, whichever door you walk through.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter reveal" id="twin">
+    <div class="wrap">
+      <div class="ch-head">
+        <span class="ch-no">03 · Where it all goes</span>
+        <div>
+          <h2>Every test calibrates your health twin.</h2>
+          <p class="lede">Your twin is the living picture of your body that Yello builds from your history. A test isn't a verdict — it's a calibration event. Each one adds a point, updates a trend, and brings the picture into sharper focus.</p>
+        </div>
+      </div>
+
+      <div class="cal-line" aria-hidden="true"><span class="fill"></span></div>
+      <div class="cal-events">
+        <div class="cal-event">
+          <span class="when">Today</span>
+          <h4>First full check</h4>
+          <p>Your baseline. Sixty markers become the first outline of your twin.</p>
+        </div>
+        <div class="cal-event">
+          <span class="when">+6 months</span>
+          <h4>Focused follow-up</h4>
+          <p>The markers that matter for you, re-measured. Trends appear; the twin sharpens.</p>
+        </div>
+        <div class="cal-event">
+          <span class="when">+1 year</span>
+          <h4>Annual deep check</h4>
+          <p>Bloods and imaging together. Now your doctor reads trajectories, not snapshots.</p>
+        </div>
+        <div class="cal-event future">
+          <span class="when">Coming</span>
+          <h4>Between the tests</h4>
+          <p>Wearables and daily-life signals — sleep, movement, recovery — so the twin lives between calibrations, not just on test days.</p>
+        </div>
+      </div>
+
+      <div class="instruments">
+        <div class="instrument">
+          <span class="tag">You see</span>
+          <h3>Your timeline</h3>
+          <p>Every test you've ever taken with Yello, plotted as calibration points on one line — nothing lost, nothing scattered.</p>
+        </div>
+        <div class="instrument">
+          <span class="tag">You see</span>
+          <h3>Your trends</h3>
+          <p>Each marker tracked across visits, against your own baseline. Drift shows up years before disease does.</p>
+          <div class="spark" aria-hidden="true">
+            <i style="height:30%"></i><i style="height:42%"></i><i style="height:38%"></i><i style="height:55%"></i><i style="height:64%"></i><i class="hi" style="height:78%"></i>
+          </div>
+        </div>
+        <div class="instrument">
+          <span class="tag">You see</span>
+          <h3>Your family, side by side</h3>
+          <p>A twin per member — parents, partner, kids. One place to watch over everyone you book for.</p>
+        </div>
+      </div>
+
+      <p class="prose" style="margin-top:44px">Find yours in <a href="/#account" style="color:var(--teal)">My Account → Your health twin</a> after your first booking.</p>
+
+      <div class="horizon">
+        <p class="horizon-tag">Where your twin is going</p>
+        <p class="horizon-lede">Today the twin is calibrated by bloods and imaging. Each layer below makes it sharper and more predictive — and because your record is portable, you carry every gain forward. We build it in order, honestly, never ahead of the evidence.</p>
+        <div class="horizon-ladder">
+          <div class="rung on">
+            <span class="rung-state">Live now</span>
+            <h4>Calibration record</h4>
+            <p>Every test a point; every marker a trend, read against your own baseline.</p>
+          </div>
+          <div class="rung">
+            <span class="rung-state">Next</span>
+            <h4>Continuous stream</h4>
+            <p>Wearables and daily signals — sleep, movement, recovery, resting HR — flowing between visits, so the twin lives every day, not just on test days.</p>
+          </div>
+          <div class="rung">
+            <span class="rung-state">Building</span>
+            <h4>Biological age &amp; pace of aging</h4>
+            <p>Not just "in range" — how fast you're aging, organ by organ, and whether that pace is bending the right way.</p>
+          </div>
+          <div class="rung">
+            <span class="rung-state">The horizon</span>
+            <h4>What-if, before you decide</h4>
+            <p>Your twin simulates the change first — this habit, this program, this year — and shows the trajectory it would buy you, so a choice stops being a guess.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter reveal" id="trust">
+    <div class="wrap">
+      <div class="ch-head">
+        <span class="ch-no">04 · What we hold ourselves to</span>
+        <div>
+          <h2>Trust is the product.</h2>
+        </div>
+      </div>
+      <div class="trust">
+        <div>
+          <h3>Accreditation-graded network</h3>
+          <p>Centres are vetted on NABL/NABH accreditation, equipment and process before they can take a Yello booking — and measured continuously after.</p>
+        </div>
+        <div>
+          <h3>Your data is yours — DPDP 2023</h3>
+          <p>We follow India's Digital Personal Data Protection Act, 2023. You decide who sees your records; you can export or delete them any time.</p>
+        </div>
+        <div>
+          <h3>ABHA-ready records</h3>
+          <p>Your record is kept compatible with India's national health ecosystem (ABDM), so your twin is portable — it belongs to you, not to us.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter reveal" id="faq">
+    <div class="wrap">
+      <div class="ch-head">
+        <span class="ch-no">05 · Common questions</span>
+        <div><h2>Asked often, answered plainly.</h2></div>
+      </div>
+      <details>
+        <summary>What is Yello?</summary>
+        <p>A curated preventive health network in Hyderabad. We hold every partner centre to one quality bar, explain every report in plain language, include a doctor consult with every booking, and keep your family's health record in one place for life.</p>
+      </details>
+      <details>
+        <summary>What is a health twin?</summary>
+        <p>The living picture of your body that Yello builds from your test history. Every test is a calibration event — it adds a data point, updates your trends, and makes the twin sharper. You see it as a timeline, trend lines per marker, and one view per family member.</p>
+      </details>
+      <details>
+        <summary>How is this different from a lab aggregator?</summary>
+        <p>Aggregators sell tests. Yello sells staying well: curated centres rather than listings, programs rather than one-offs, explanations rather than PDFs, and a record that compounds in value the longer you stay. The test is the beginning of the product, not the end.</p>
+      </details>
+      <details>
+        <summary>Is my health data safe?</summary>
+        <p>Yes. Yello follows India's Digital Personal Data Protection Act, 2023. Your records belong to you — you choose who sees them, you can export them, and you can ask for them to be deleted. Records are kept ABHA-ready.</p>
+      </details>
+      <details>
+        <summary>Where does Yello operate?</summary>
+        <p>We're starting in Hyderabad with a small, carefully chosen network of centres, and expanding city by city. Home sample collection is available across the service area.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="close-cta reveal">
+    <div class="wrap">
+      <h2>Start your twin with one check.</h2>
+      <p>Your first booking becomes your baseline — the first calibration of a picture you'll keep for life.</p>
+      <div class="btn-row">
+        <a class="btn solid" href="/#home">Book a health check</a>
+        <a class="btn ghost" href="/#how">See how Yello works</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="about-foot">
+    <div class="wrap">
+      <span>© <span id="yr"></span> Yello Diagnostic Labs Pvt. Ltd. · Hyderabad, India</span>
+      <span>
+        <a href="/#terms">Terms</a> · <a href="/#privacy">Privacy</a> · <a href="/#contact">Contact</a> · <a href="/centre">Partner with Yello</a>
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("yr").textContent = new Date().getFullYear();
+
+    // Twin figure: a human silhouette drawn as a dot lattice that "sharpens".
+    (function buildTwin() {
+      const svg = document.getElementById("twinFig");
+      const cols = 12, rows = 22, cw = 10, ch = 9;
+      // coarse body mask per row: [startCol, endCol] inclusive — head, shoulders, torso, hips, legs
+      const mask = [
+        [5, 7], [4, 7], [4, 7], [5, 6],            // head + neck
+        [2, 9], [1, 10], [1, 10], [1, 10],          // shoulders + chest
+        [2, 9], [2, 9], [3, 8], [3, 8],             // torso
+        [3, 8], [2, 9], [2, 9],                     // hips
+        [2, 5, 6, 9], [2, 5, 6, 9], [3, 5, 7, 9],   // legs split
+        [3, 5, 7, 9], [3, 5, 7, 9], [2, 5, 7, 10], [2, 5, 7, 10]
+      ];
+      const dots = [];
+      mask.forEach((row, r) => {
+        for (let seg = 0; seg < row.length; seg += 2) {
+          for (let c = row[seg]; c <= row[seg + 1]; c++) {
+            const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            dot.setAttribute("cx", 8 + c * cw / 1.2 + (r % 2 ? 2.4 : 0));
+            dot.setAttribute("cy", 8 + r * ch);
+            dot.setAttribute("r", 2.2);
+            dot.setAttribute("class", "twin-dot");
+            svg.appendChild(dot);
+            dots.push(dot);
+          }
+        }
+      });
+      // sharpen sequence: light dots in random order up to 62%, calibration dots in yellow
+      const order = dots.map((d, i) => i).sort(() => 0.5 - Math.random());
+      const target = Math.floor(dots.length * 0.62);
+      const pctEl = document.getElementById("resPct");
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) {
+        order.slice(0, target).forEach((i) => dots[i].classList.add("lit"));
+        order.slice(0, 5).forEach((i) => dots[i].classList.add("cal"));
+        pctEl.textContent = "62%";
+        return;
+      }
+      let lit = 0;
+      const timer = setInterval(() => {
+        const batch = Math.max(1, Math.round(dots.length / 60));
+        for (let b = 0; b < batch && lit < target; b++, lit++) {
+          const dot = dots[order[lit]];
+          dot.classList.add("lit");
+          if (lit % 29 === 0) dot.classList.add("cal");
+        }
+        pctEl.textContent = Math.round((lit / dots.length) * 100) + "%";
+        if (lit >= target) clearInterval(timer);
+      }, 40);
+    })();
+
+    // Scroll reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>

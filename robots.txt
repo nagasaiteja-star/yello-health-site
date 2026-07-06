@@ -1,2 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /doctor
+Disallow: /api/
+
+Sitemap: https://yello.health/sitemap.xml
