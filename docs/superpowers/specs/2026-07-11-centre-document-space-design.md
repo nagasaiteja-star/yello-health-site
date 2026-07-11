@@ -75,8 +75,8 @@ Three parts, one backend.
 
 **Unified journey.**
 1. Owner fills the apply form (centre, owner, phone, email, location, PIN, modalities, accreditation, volume, notes).
-2. Submit → backend creates record + token + Drive folder, **emails the private link** (Apps Script `MailApp`, from admin@studiocahaya.com) if an email was given, and returns `{ok, portalUrl}`.
-3. Success screen: "Application received. Here's your private link to upload documents — bookmark it (we've emailed it too)." + "Open my documents →".
+2. Submit → **dedup check first** (see below): if this phone or email already has a record, return that centre's *existing* token/link — do not mint a new one. Otherwise create record + token + Drive folder. Then **email the private link** (Apps Script `MailApp`, from admin@studiocahaya.com) if an email was given, and return `{ok, portalUrl}`.
+3. Success screen leads with the **link itself, shown persistently and copyable** ("Bookmark this link to return to your documents") with a Copy button, then "(we've also emailed it)" only if the send succeeded — never rely on email alone. + "Open my documents →".
 4. Portal shows the checklist for the centre's current stage, autosaves, and lets them manage files.
 5. Return anytime via the link. When Kiran sets `stage = round2`, the same link reveals Round-2 items (bank statements, ITR) with the NDA note prominent.
 
@@ -89,6 +89,16 @@ Three parts, one backend.
 **Round progression.** `stage` in the sheet is the single switch. The portal filters which checklist items show by stage. Applying sets `stage = round1`, so Round-1 items are available immediately; Round-2 items appear once Kiran sets `stage = round2`. Kiran controls advancement — sensitive asks only surface once both sides agree to proceed.
 
 **Email delivery — zero new infra.** Apps Script `MailApp.sendEmail` sends the private link from admin@studiocahaya.com. Also shown on-screen to bookmark, and Kiran can paste it into WhatsApp. (Future: auto-send via a WhatsApp/SMS gateway when one is wired.)
+
+## Data integrity, concurrency & recovery (from pre-build validation)
+
+These requirements exist because the merged apply→portal flow and manual admin edits create failure modes that must be designed out, not patched later.
+
+- **Dedup on apply (must-have).** Before creating a record, look up the submitted phone and email against existing records. On a match, return the existing token/link with a friendly "you already started — here's your link" message. Prevents a centre's documents from splitting across two tokens/folders and prevents a stale bookmarked link. The dedup key is phone OR email match.
+- **Link recovery (must-have).** Every owner must have a self-serve way back even if they lose the on-screen link. Provide a "resend my link" action that emails the private link **only to the address already stored on that centre's record** (never to an address typed at request time — that would leak). If no email is on file, recovery falls to Kiran, who looks the centre up by phone in the admin sheet and resends. Encourage (or require) email at apply time to keep owners self-sufficient.
+- **Concurrency (must-have).** `uploadFile` and `deleteFile` mutate the same `answers_json` cell as `saveProgress`. All three must acquire the same `LockService` script lock before read-modify-write, or a concurrent autosave can clobber a just-added/removed file reference.
+- **Stage validation (fail-safe).** `stage` is edited by hand in the sheet. The portal must normalize the value (trim/lowercase) and, if it is not one of the known stages, **fail safe to `round1`** — never expose more than the intended round. A typo must never reveal Round-2 financials.
+- **Admin view: collected vs deferred.** Progress % treats an item as "done" if a field is filled, a file is attached, **or** "I'll send later" is ticked. The admin/sheet view must distinguish genuinely *collected* items from *deferred-to-WhatsApp* ones, so Kiran can see what is actually still outstanding — a 100% bar does not mean every document is in hand.
 
 ## Migration
 
@@ -113,3 +123,8 @@ Only **test data** exists in the two current sheets today — no real centre has
 - **Everyone who applies gets a doc space** (consequence of merging, accepted by Teja). Watch for junk applications creating empty spaces; Kiran's `stage` field and the leads view keep this manageable.
 - Apps Script daily email quota (~100–1500/day for the account) — ample for the pilot.
 - The unified backend is a rework of two just-deployed scripts; the build plan should sequence it so the live apply form and portal keep working until the unified version is verified, then cut over the `/exec` URLs in one step.
+- **Cross-domain trust:** the journey crosses from `yello.health` to `script.google.com/…/exec`. Brand the portal page unmistakably as NDIAN so an owner reads it as legitimate; a custom-domain proxy is a later nicety, not pilot-blocking.
+
+## Pre-build validation
+
+This spec was run through the data-validation checklist (11 Jul) against the apply→link→return data flow. Result: **needs revision → revised.** Must-fixes (dedup on apply, link recovery, concurrency locking) are folded in above; the remaining medium items (stage fail-safe, admin collected-vs-deferred, persistent copyable link, cross-domain branding) are captured as explicit requirements for the build plan. Accepted residual risk: token-in-URL is the sole credential (link leakage exposes one centre; Round-2 financials gated by link only, per decision 3).
