@@ -761,7 +761,7 @@
 
   // ---- storage ----
   const STORE='yello_centre_intake';
-  const SHEET_ENDPOINT=''; // ← paste your Google Apps Script Web App /exec URL here to collect leads in a Google Sheet
+  const SHEET_ENDPOINT='https://script.google.com/macros/s/AKfycbwLChpkHU5X7U_JEiQUwG2-c6yKjXl-eD1KQ0jsLGDwi_r_X0HwXj2GBVM8WvXkVcbU/exec'; // ← paste your Google Apps Script Web App /exec URL here to collect leads in a Google Sheet
   const getLeads=()=>{try{return JSON.parse(localStorage.getItem(STORE)||'[]')}catch{return[]}};
   const saveLead=d=>{const a=getLeads();a.unshift(d);localStorage.setItem(STORE,JSON.stringify(a));};
 
