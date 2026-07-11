@@ -60,7 +60,7 @@ Three parts, one backend.
 | `token` | Unguessable id (`Utilities.getUuid()`), the record key and the URL parameter |
 | `ts_created` / `last_updated` | Timestamps |
 | `centre_name`, `owner_name`, `phone`, `email` | Identity + contact |
-| `location`, `pin` | Centre location + 6-digit PIN |
+| `location`, `pin` | Centre area/locality + 6-digit **postal PIN code** (location data — NOT a passcode; the only credential is the magic-link token) |
 | `modalities`, `nabl`, `pcpndt`, `volume`, `idle`, `notes` | Apply-form profile |
 | `stage` | `round1` → `round2` → `signing` → `closed`. **Controls what the portal reveals.** Apply sets `round1` (upload enabled immediately); Kiran advances the rest in the sheet. |
 | `pct_complete`, `status` | Progress |
