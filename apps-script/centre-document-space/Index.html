@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base target="_top">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root{ --brand:#ffc40c; --brand-deep:#c99700; --brand-ink:#201900; --charcoal:#444444;
+    --teal:#0f766e; --paper:#fffdf7; --tint:#fbf7ec; --line:#e4e0d8; --ink:#242424; --muted:#6a6d73; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Barlow',sans-serif;background:var(--tint);color:var(--ink);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:640px;margin:0 auto;padding:0 14px 120px}
+  header{position:sticky;top:0;z-index:20;background:var(--charcoal);color:#fff;padding:12px 14px}
+  .hrow{max-width:612px;margin:0 auto;display:flex;align-items:center;gap:12px}
+  .logo{font-weight:900;font-size:19px;letter-spacing:-.3px}
+  .logo b{color:var(--brand)}
+  .progwrap{flex:1;display:flex;align-items:center;gap:10px}
+  .track{flex:1;height:8px;background:#5a5a5a;border-radius:99px;overflow:hidden}
+  .fill{height:100%;width:0;background:var(--brand);transition:width .25s}
+  .pct{font-size:13px;font-weight:800;min-width:36px;text-align:right}
+  h1{font-family:'Bebas Neue','Barlow',sans-serif;font-weight:400;font-size:32px;line-height:1.05;color:var(--charcoal);margin:20px 0 4px}
+  .sub{color:var(--muted);font-size:15px;margin-bottom:6px}
+  .sub b{color:var(--ink)}
+  /* link banner */
+  .linkcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:16px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .linkcard.first{border-color:var(--brand-deep);background:linear-gradient(0deg,#fffdf3,#fff)}
+  .linkcard .k{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+  .linkcard p{font-size:13.5px;color:var(--ink)}
+  .linkrow{display:flex;gap:8px;margin-top:10px;align-items:stretch}
+  .linkurl{flex:1;min-width:0;border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:12.5px;color:var(--muted);background:var(--tint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .btn{font-size:14px;font-weight:800;padding:9px 14px;border-radius:9px;border:none;background:var(--brand);color:var(--brand-ink);cursor:pointer;font-family:inherit;white-space:nowrap}
+  .btn.ghost{background:#fff;border:1.5px solid var(--line);color:var(--charcoal)}
+  .btn:active{transform:translateY(1px)}
+  .linkactions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .muted-sm{font-size:12.5px;color:var(--muted);margin-top:8px}
+  /* items */
+  label.f{display:block;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:12px 0 4px}
+  input[type=text],textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;font-size:16px;font-family:inherit;background:#fff}
+  input:focus,textarea:focus{outline:none;border-color:var(--teal)}
+  textarea{resize:vertical;min-height:44px}
+  .roundhead{margin:26px 2px 2px;font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--brand-deep)}
+  .nda{background:var(--tint);border-left:3px solid var(--teal);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--ink);margin:8px 0 2px}
+  .item{background:#fff;border:1px solid var(--line);border-radius:14px;margin-top:12px;overflow:hidden}
+  .ihead{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none}
+  .num{flex:none;width:30px;height:30px;border-radius:9px;background:var(--tint);color:var(--brand-deep);font-family:'Bebas Neue','Barlow',sans-serif;font-size:19px;display:flex;align-items:center;justify-content:center}
+  .ihead h3{font-size:16px;font-weight:800;color:var(--charcoal);flex:1}
+  .state{flex:none;font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:99px;background:#f0eee6;color:var(--muted)}
+  .item.done .state{background:var(--teal);color:#fff}
+  .item.later .state{background:var(--brand);color:var(--brand-ink)}
+  .ibody{display:none;padding:2px 16px 16px}
+  .item.open .ibody{display:block}
+  .hint{font-size:13.5px;color:var(--muted);margin-bottom:10px}
+  .upbtn{display:flex;align-items:center;justify-content:center;gap:8px;border:1.5px dashed var(--brand-deep);background:var(--tint);color:var(--charcoal);font-weight:700;font-size:14.5px;border-radius:10px;padding:12px;cursor:pointer;width:100%;margin-top:10px}
+  .files{margin-top:8px;display:grid;gap:6px}
+  .file{display:flex;align-items:center;gap:8px;font-size:13.5px;background:var(--tint);border-radius:8px;padding:7px 10px;color:var(--ink)}
+  .file a{color:var(--teal);font-weight:700;text-decoration:none;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .file .up{color:var(--muted);font-style:italic;flex:1}
+  .file .rm{border:none;background:none;color:#c0392b;font-weight:900;cursor:pointer;font-size:15px;padding:0 4px}
+  .later-row{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:14px;color:var(--muted)}
+  .later-row input{width:18px;height:18px;accent-color:var(--teal)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:480px){.grid2{grid-template-columns:1fr}}
+  .foot{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:10px 14px;z-index:30}
+  .frow{max-width:612px;margin:0 auto;display:flex;align-items:center;gap:12px}
+  .saved{flex:1;font-size:13px;color:var(--muted)}
+  .saved.err{color:#c0392b;font-weight:700}
+  .note{background:var(--tint);border-left:3px solid var(--brand);border-radius:8px;padding:12px 14px;font-size:13.5px;margin-top:16px}
+  .toast{position:fixed;left:50%;bottom:70px;transform:translateX(-50%);background:var(--charcoal);color:#fff;font-size:13px;font-weight:600;padding:9px 16px;border-radius:99px;opacity:0;transition:opacity .2s;z-index:40;pointer-events:none}
+  .toast.show{opacity:1}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+  <div class="logo">NDIAN<b>.</b></div>
+  <div class="progwrap"><div class="track"><div class="fill" id="fill"></div></div><div class="pct" id="pct">0%</div></div>
+</div></header>
+
+<div class="wrap">
+  <div id="banner"></div>
+  <h1 id="title">Your documents.</h1>
+  <p class="sub">Upload a photo or PDF, or type the details — whichever is easier. <b>Everything saves automatically.</b></p>
+  <div id="items"></div>
+  <div class="note" id="donenote">Done what you can? Just close this page — we see your progress live, and you can return anytime with your private link. Anything marked "I'll send later": WhatsApp +91 99599 53699.</div>
+</div>
+
+<div class="foot"><div class="frow">
+  <span class="saved" id="saved"></span>
+  <button class="btn ghost" onclick="document.getElementById('banner').scrollIntoView({behavior:'smooth'})">My link</button>
+</div></div>
+
+<input type="file" id="fpick" multiple accept="image/*,.pdf,.xlsx,.xls,.csv,.doc,.docx" style="display:none">
+<div class="toast" id="toast"></div>
+
+<script>
+var BOOT = <?!= bootJson ?>;
+var TOKEN = BOOT.token;
+var REC = BOOT.record || {};
+var A = REC.answers || {};                 // {itemKey:{fields:{},files:[{name,url,fileId}],later}}
+var STAGE = REC.stage || 'round1';
+var $ = function(id){ return document.getElementById(id); };
+
+// ---- checklist items (round1 always; round2 shown once Kiran advances stage) ----
+var ITEMS = [
+ {k:'reg',   s:'round1', t:'Registration certificates', h:'Clinical Establishments registration · GST — photos or PDFs are fine.', kind:'files'},
+ {k:'lic',   s:'round1', t:'Licences for your services', h:'NABL certificate & scope (lab) · PC-PNDT (imaging) · AERB (CT / X-ray) — whichever apply.', kind:'files'},
+ {k:'equip', s:'round1', t:'Equipment list', h:'Make, model, year, AMC. Upload a list or type it below.', kind:'both',
+   fields:[{k:'list',t:'Machines / analyzers',ta:1,ph:'e.g. Siemens 1.5T MRI (2019, AMC active) · Mindray BS-240 (2021)…'}]},
+ {k:'rate',  s:'round1', t:'Your current rate card', h:'The price list you use today — photo or PDF.', kind:'files'},
+ {k:'rev',   s:'round1', t:'Last 12 months’ revenue', h:'A simple summary from your own records — ballpark is fine.', kind:'both',
+   fields:[{k:'avg',t:'Average monthly revenue (₹)',ph:'e.g. ₹28 lakh'},
+           {k:'split',t:'Rough split by service line',ta:1,ph:'e.g. Lab 40% · USG 20% · CT 25% · X-ray 15%'},
+           {k:'mix',t:'How it comes in',ta:1,ph:'e.g. walk-in 30% · doctor-referred 50% · corporate 20%'}]},
+ {k:'cost',  s:'round1', t:'Monthly running costs', h:'Ballpark is fine.', kind:'both',
+   fields:[{k:'rent',t:'Rent (₹/month)',ph:'ballpark'},{k:'pay',t:'Team payroll (₹/month)',ph:'ballpark'},
+           {k:'amc',t:'AMC + consumables / reagents (₹/month)',ph:'ballpark'},{k:'emi',t:'Equipment EMI, if any (₹/month)',ph:'or "none"'}]},
+ {k:'vol',   s:'round1', t:'Current volumes', h:'', kind:'fields',
+   fields:[{k:'perday',t:'Tests / scans per day',ph:'e.g. ~35 scans, ~120 tests'},
+           {k:'hours',t:'Busy vs quiet hours',ta:1,ph:'e.g. mornings full, 1–5 PM mostly idle'}]},
+ {k:'ref',   s:'round1', t:'Top referral sources or clients', h:'Your top 5–10. Type of source is enough — names optional.', kind:'fields',
+   fields:[{k:'list',t:'Sources / clients',ta:1,ph:'e.g. 3 orthopaedic clinics nearby · 1 corporate contract · walk-ins'}]},
+ {k:'team',  s:'round1', t:'Team snapshot', h:'', kind:'fields',
+   fields:[{k:'count',t:'Headcount by role',ta:1,ph:'e.g. 2 technicians, 3 front desk, 1 visiting radiologist'},
+           {k:'sign',t:'Named signatories',ph:'radiologist / pathologist / quality manager'}]},
+ {k:'prem',  s:'round1', t:'Premises', h:'', kind:'fields',
+   fields:[{k:'own',t:'Owned or leased?',ph:'owned / leased'},{k:'ten',t:'If leased — years remaining',ph:'e.g. 4 years'}]},
+ // ---- Round 2 (financials — revealed when stage = round2) ----
+ {k:'bank',  s:'round2', t:'Bank statements (12 months)', h:'Business account statements for the last 12 months.', kind:'files'},
+ {k:'returns',s:'round2', t:'GST returns + ITR', h:'GSTR-3B (12 months) and the latest income-tax return.', kind:'files'},
+ {k:'costdetail',s:'round2', t:'Full cost detail', h:'Rent agreement, payroll register, AMC contracts, consumable invoices.', kind:'files'}
+];
+
+function visibleItems(){
+  var showR2 = STAGE !== 'round1'; // round2 / signing / closed reveal Round 2
+  return ITEMS.filter(function(it){ return it.s === 'round1' || (it.s === 'round2' && showR2); });
+}
+
+// ---- banner (private link) ----
+function renderBanner(){
+  var first = BOOT.firstVisit;
+  var emailedLine = first && BOOT.emailed ? ' We’ve also emailed it to you.' : '';
+  var resend = BOOT.hasEmail
+    ? '<button class="btn ghost" onclick="resend()">Email me the link</button>'
+    : '<span class="muted-sm">No email on file — bookmark the link above, or WhatsApp us to resend.</span>';
+  $('banner').innerHTML =
+    '<div class="linkcard' + (first ? ' first' : '') + '">' +
+      '<div class="k">' + (first ? 'Save your private link' : 'Your private link') + '</div>' +
+      '<p>' + (first
+          ? 'This is your private link — <b>bookmark it</b> to come back to your documents anytime.' + emailedLine
+          : 'Bookmark this to return anytime.') + '</p>' +
+      '<div class="linkrow"><div class="linkurl" id="lu">' + BOOT.portalUrl + '</div>' +
+        '<button class="btn" onclick="copyLink()">Copy</button></div>' +
+      '<div class="linkactions">' + resend + '</div>' +
+    '</div>';
+}
+function copyLink(){
+  var t = BOOT.portalUrl;
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function(){toast('Link copied');}, fallbackCopy);
+  else fallbackCopy();
+  function fallbackCopy(){ var r=document.createRange(); r.selectNode($('lu')); var s=getSelection(); s.removeAllRanges(); s.addRange(r); try{document.execCommand('copy');toast('Link copied');}catch(e){toast('Select & copy the link');} s.removeAllRanges(); }
+}
+function resend(){
+  toast('Sending…');
+  google.script.run.withSuccessHandler(function(r){ toast(r && r.ok ? 'Link emailed' : 'Could not email — bookmark it instead'); })
+    .withFailureHandler(function(){ toast('Could not email — bookmark it instead'); })
+    .resendLink(TOKEN);
+}
+
+// ---- build items ----
+function build(){
+  var root = $('items'); root.innerHTML = '';
+  var items = visibleItems();
+  var r2started = false;
+  items.forEach(function(it, idx){
+    if (it.s === 'round2' && !r2started){
+      r2started = true;
+      var head = document.createElement('div');
+      head.innerHTML = '<div class="roundhead">Round 2 · financials</div>' +
+        '<div class="nda">These are confidential. We’re glad to sign a mutual NDA first — just ask. Ballpark is fine; detailed proofs only as needed.</div>';
+      root.appendChild(head);
+    }
+    var a = A[it.k] = A[it.k] || {fields:{}, files:[], later:false};
+    var el = document.createElement('div');
+    el.className = 'item'; el.id = 'it_' + it.k;
+    var inner = '<div class="ihead" onclick="this.parentNode.classList.toggle(\'open\')">' +
+      '<div class="num">' + (idx + 1) + '</div><h3>' + it.t + '</h3><span class="state" id="st_' + it.k + '"></span></div>' +
+      '<div class="ibody">' + (it.h ? '<p class="hint">' + it.h + '</p>' : '');
+    (it.fields || []).forEach(function(f){
+      var v = (a.fields[f.k] || '').replace(/</g,'&lt;');
+      inner += '<label class="f">' + f.t + '</label>' + (f.ta
+        ? '<textarea oninput="setF(\'' + it.k + '\',\'' + f.k + '\',this.value)" placeholder="' + (f.ph||'') + '">' + v + '</textarea>'
+        : '<input type="text" value="' + v + '" oninput="setF(\'' + it.k + '\',\'' + f.k + '\',this.value)" placeholder="' + (f.ph||'') + '">');
+    });
+    if (it.kind !== 'fields'){
+      inner += '<button class="upbtn" onclick="pick(\'' + it.k + '\',\'' + it.t.replace(/'/g,'') + '\')">📎 Upload photo / PDF</button>' +
+               '<div class="files" id="fl_' + it.k + '"></div>';
+    }
+    inner += '<div class="later-row"><input type="checkbox" id="lt_' + it.k + '" ' + (a.later?'checked':'') +
+             ' onchange="setLater(\'' + it.k + '\',this.checked)"><label for="lt_' + it.k + '">I\'ll send this later on WhatsApp</label></div></div>';
+    el.innerHTML = inner; root.appendChild(el); renderFiles(it.k); renderState(it.k);
+  });
+}
+function itemDone(k){ var a=A[k]; if(!a) return false;
+  return (a.files && a.files.length>0) || Object.values(a.fields||{}).some(function(v){return String(v).trim();}); }
+function renderState(k){
+  var a=A[k], el=$('it_'+k), st=$('st_'+k); if(!el) return;
+  el.classList.remove('done','later');
+  if(itemDone(k)){ el.classList.add('done'); st.textContent='✓ done'; }
+  else if(a.later){ el.classList.add('later'); st.textContent='later'; }
+  else st.textContent='to do';
+}
+function setF(k,f,v){ A[k].fields[f]=v; renderState(k); save(); }
+function setLater(k,v){ A[k].later=v; renderState(k); save(); }
+
+// ---- uploads / files ----
+var pickFor=null, pickLabel='';
+function pick(k,label){ pickFor=k; pickLabel=label; $('fpick').value=''; $('fpick').click(); }
+$('fpick').addEventListener('change', function(e){
+  Array.prototype.forEach.call(e.target.files, function(file){
+    if(file.size>15*1024*1024){ alert(file.name+' is over 15 MB — please WhatsApp it to +91 99599 53699 instead.'); return; }
+    var entry={name:file.name,url:'',fileId:'',uploading:true};
+    A[pickFor].files.push(entry); renderFiles(pickFor); renderState(pickFor); prog();
+    var rd=new FileReader();
+    rd.onload=function(){
+      var b64=rd.result.split(',')[1];
+      google.script.run.withSuccessHandler(function(res){
+          entry.url=res.url; entry.name=res.name; entry.fileId=res.fileId; entry.uploading=false; renderFiles(pickFor); prog();
+        }).withFailureHandler(function(){ entry.uploading=false; entry.failed=true; renderFiles(pickFor); flash('Upload failed — try again or WhatsApp it.',1); })
+        .uploadFile(TOKEN, pickFor, file.name, file.type, b64);
+    };
+    rd.readAsDataURL(file);
+  });
+});
+function renderFiles(k){
+  var box=$('fl_'+k); if(!box) return;
+  box.innerHTML=(A[k].files||[]).map(function(f,i){
+    if(f.uploading) return '<div class="file"><span class="up">uploading '+esc(f.name)+'…</span></div>';
+    if(f.failed) return '<div class="file"><span style="color:#c0392b;flex:1">✕ '+esc(f.name)+' failed</span></div>';
+    return '<div class="file"><a href="'+f.url+'" target="_blank" rel="noopener">'+esc(f.name)+'</a>' +
+           '<button class="rm" title="Remove" onclick="removeFile(\''+k+'\',\''+f.fileId+'\')">✕</button></div>';
+  }).join('');
+}
+function removeFile(k,fileId){
+  if(!confirm('Remove this file? This deletes it from your documents.')) return;
+  var a=A[k]; var f=(a.files||[]).filter(function(x){return x.fileId===fileId;})[0]; if(f) f.uploading=true; renderFiles(k);
+  google.script.run.withSuccessHandler(function(){ a.files=a.files.filter(function(x){return x.fileId!==fileId;}); renderFiles(k); renderState(k); prog(); toast('File removed'); })
+    .withFailureHandler(function(){ if(f)f.uploading=false; renderFiles(k); flash('Could not remove — try again.',1); })
+    .deleteFile(TOKEN, k, fileId);
+}
+function esc(s){ return String(s).replace(/</g,'&lt;'); }
+
+// ---- progress + autosave ----
+function prog(){
+  var items=visibleItems();
+  var done=items.filter(function(it){ return itemDone(it.k) || (A[it.k]&&A[it.k].later); }).length;
+  var pct=Math.round(done/items.length*100);
+  $('fill').style.width=pct+'%'; $('pct').textContent=pct+'%';
+  return pct;
+}
+var t;
+function save(){
+  clearTimeout(t); flash('Saving…');
+  t=setTimeout(function(){
+    var pct=prog();
+    google.script.run.withSuccessHandler(function(){ flash('Saved ✓'); })
+      .withFailureHandler(function(){ flash('⚠ Not saved — check internet',1); })
+      .saveProgress(TOKEN, JSON.stringify(A), pct, pct===100?'complete':'in progress');
+  },900);
+}
+function flash(msg,err){ var s=$('saved'); s.textContent=msg; s.className='saved'+(err?' err':''); }
+function toast(msg){ var el=$('toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(el._t); el._t=setTimeout(function(){el.classList.remove('show');},1800); }
+
+// ---- init ----
+$('title').textContent=(REC.centre_name||'Your centre')+' — documents.';
+renderBanner(); build(); prog();
+if(BOOT.firstVisit) $('banner').scrollIntoView();
+</script>
+</body>
+</html>
