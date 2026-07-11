@@ -629,7 +629,7 @@
           <li><span class="ck">✓</span> Founder-led onboarding for imaging centres</li>
         </ul>
       </div>
-      <form id="centreForm" novalidate>
+      <form id="centreForm" method="POST" action="https://script.google.com/macros/s/AKfycbwHFNcR68cAPcltlsmzu1wuDXBBnfwpwkbH8pAzM9w4lcgyxzbXyStY6V_XA7-YUxnm/exec" target="_top" novalidate>
         <div class="form-body">
           <div class="row2">
             <div class="field"><label>Centre name <span class="star">*</span></label><input type="text" name="centre" required placeholder="e.g. Banjara Imaging & Labs"></div>
@@ -680,6 +680,7 @@
             <div class="field"><label>Estimated idle capacity</label><select name="idle"><option value="">Select…</option><option>Under 20%</option><option>20–40%</option><option>40–60%</option><option>Over 60%</option></select></div>
           </div>
           <div class="field"><label>Anything else we should know?</label><textarea name="notes" rows="3" placeholder="Equipment (e.g. 1.5T MRI), current referral setup, what you'd want from a partner…"></textarea></div>
+          <input type="hidden" name="modalities" id="modalitiesHidden">
           <button type="submit" class="btn primary big" style="width:100%">Apply to the pilot →</button>
           <p class="form-msg">By applying you agree to be contacted by the NDIAN team. We never pay or facilitate referral commissions — this is platform demand only.</p>
         </div>
@@ -783,26 +784,17 @@
   // ---- form handling ----
   const form=document.getElementById('centreForm');
   form.addEventListener('submit',function(ev){
-    ev.preventDefault();
-    const modal=form.querySelectorAll('input[name=modality]:checked').length;
-    if(!form.checkValidity()||modal===0){
-      if(modal===0)alert('Please select at least one modality.');
+    const boxes=[...form.querySelectorAll('input[name=modality]:checked')];
+    if(!form.checkValidity()||boxes.length===0){
+      ev.preventDefault();
+      if(boxes.length===0)alert('Please select at least one modality.');
       else form.reportValidity();
       return;
     }
-    const data=Object.fromEntries(new FormData(form).entries());
-    data.modalities=[...form.querySelectorAll('input[name=modality]:checked')].map(c=>c.value);
-    Object.assign(data,scoreCentre(data));
-    data.ts=new Date().toISOString();
-    saveLead(data);
-    console.log('Centre intake →',data);
-    if(SHEET_ENDPOINT){
-      const body=new URLSearchParams();
-      Object.entries(data).forEach(([k,v])=>body.append(k,Array.isArray(v)?v.join('; '):v));
-      fetch(SHEET_ENDPOINT,{method:'POST',body}).catch(()=>{}); // form-encoded = no CORS preflight; fire-and-forget
-    }
-    form.classList.add('sent');
-    window.scrollTo({top:form.getBoundingClientRect().top+window.scrollY-120,behavior:'smooth'});
+    // Native POST → NDIAN document portal. It creates the centre's record + private
+    // link and lands the owner in their upload space. (No preventDefault when valid.)
+    document.getElementById('modalitiesHidden').value=boxes.map(c=>c.value).join('; ');
+    form.classList.add('sent'); // brief "submitting…" state during navigation
   });
 
   // ---- admin (#admin) ----
