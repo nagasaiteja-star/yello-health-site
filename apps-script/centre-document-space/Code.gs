@@ -28,7 +28,7 @@ const IDX = {}; HEADERS.forEach((h, i) => IDX[h] = i);
 
 /** Portal (returning owner) or a small landing page if no token. */
 function doGet(e) {
-  const token = e && e.parameter && e.parameter.c;
+  const token = e && e.parameter && e.parameter.k;   // 'k', not 'c' — 'c' is a reserved Apps Script URL param (400s)
   if (!token) return _landingPage();
   const rec = _recByToken(token);
   if (!rec) return _notFoundPage();
@@ -53,9 +53,8 @@ function doPost(e) {
     } else {
       const token = Utilities.getUuid();
       const folder = _centreFolder(token, p.centre);
-      const modalities = []
-        .concat(p.modality || [], p.modalities || [])
-        .filter(Boolean).join('; ');
+      // site sends a joined hidden `modalities` field; fall back to first checkbox
+      const modalities = String(p.modalities || p.modality || '').trim();
       const vals = new Array(HEADERS.length).fill('');
       vals[IDX.token] = token;
       vals[IDX.ts_created] = new Date();
@@ -218,7 +217,7 @@ function _publicRec(rec) {
 }
 
 function _execUrl() { return ScriptApp.getService().getUrl(); }
-function _portalUrl(token) { return _execUrl() + '?c=' + encodeURIComponent(token); }
+function _portalUrl(token) { return _execUrl() + '?k=' + encodeURIComponent(token); }
 
 function _sendLink(rec) {
   try {
