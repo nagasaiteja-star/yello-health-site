@@ -3,7 +3,7 @@
  *
  * One web app that: (a) receives the apply form from yello.health/partners,
  * (b) mints a per-centre private token + Drive folder, (c) serves the document
- * portal at ?c=<token>, (d) saves answers, uploads/deletes files, and re-sends
+ * portal at ?k=<token>, (d) saves answers, uploads/deletes files, and re-sends
  * the private link. Consolidates the two 11-Jul scripts (leads intake + portal).
  *
  * Identity = the token in the URL (the magic link). NOT the phone. NOT a passcode.
