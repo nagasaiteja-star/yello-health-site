@@ -1,0 +1,66 @@
+/* Yello — shared site styles (hub, investors, legal, room gate).
+   Tokens: NDIAN-Collateral/Yello-Brand-Guidelines.md §4–5. */
+:root{
+  --brand:#ffc40c; --brand-press:#e8af00; --brand-deep:#c99700; --brand-ink:#201900;
+  --charcoal:#444444; --teal:#0f766e;
+  --paper:#fffdf7; --tint:#fbf7ec; --panel:#ffffff; --night:#0a0f1e; --line:#e4e0d8;
+  --ink:#242424; --muted:#6a6d73; --alert:#c24156;
+  --font-display:'Bebas Neue','Barlow',sans-serif;
+  --font-body:'Barlow',Inter,ui-sans-serif,system-ui,sans-serif;
+  --radius:8px; --shadow:0 16px 40px rgba(36,36,36,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:4px}
+.wrap{width:min(1120px,calc(100% - 32px));margin:0 auto}
+h1,h2,h3{font-weight:800;letter-spacing:-.01em;line-height:1.1}
+.display{font-family:var(--font-display);font-weight:400;letter-spacing:.01em;line-height:.92}
+.eyebrow{display:inline-block;border-left:5px solid var(--brand);padding-left:10px;color:var(--muted);font-weight:700;font-size:.74rem;text-transform:uppercase;letter-spacing:.12em}
+.muted{color:var(--muted)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;border:0;border-radius:6px;padding:12px 22px;font:800 1rem var(--font-body);text-decoration:none;cursor:pointer;transition:background .15s,transform .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-gold{background:var(--brand);color:var(--brand-ink)}
+.btn-gold:hover{background:var(--brand-press)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-line{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn[disabled]{opacity:.6;cursor:progress;transform:none}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:50;background:rgba(255,253,247,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(36,36,36,.08)}
+.top-in{display:flex;align-items:center;gap:20px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800}
+.logo img{height:34px;width:auto}
+.logo .sub{font-size:1.02rem;color:var(--ink)}
+.top-links{margin-left:auto;display:flex;gap:4px;align-items:center;font-weight:600;font-size:.96rem}
+.top-links a{text-decoration:none;padding:8px 12px;border-radius:6px}
+.top-links a:not(.btn):hover{background:var(--tint)}
+@media(max-width:640px){.top-links a.hide-sm{display:none}.logo .sub{display:none}}
+
+/* form fields */
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:700;font-size:.82rem;color:var(--muted);margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;min-height:46px;border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:#fff;color:var(--ink);font:1rem var(--font-body)}
+.field textarea{min-height:88px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(255,196,12,.3)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.row2{grid-template-columns:1fr}}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.msg{font-size:.92rem;margin-top:10px}
+.msg.err{color:var(--alert)}
+.msg.ok{color:var(--teal);font-weight:700}
+
+/* footer */
+.foot{background:var(--ink);color:#b7b5ad;padding:48px 0 28px;margin-top:0}
+.foot-grid{display:flex;justify-content:space-between;gap:36px;flex-wrap:wrap;border-bottom:1px solid #3a3a37;padding-bottom:28px}
+.foot img{height:44px;width:auto}
+.foot p{max-width:46ch;margin-top:14px;color:#d2d0c8;font-size:.98rem}
+.foot nav{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:flex-start;max-width:420px}
+.foot nav a{color:#e8e6df;text-decoration:none;font-size:.94rem}
+.foot nav a:hover{color:var(--brand)}
+.foot-bottom{margin-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.82rem;color:#8d8b83}

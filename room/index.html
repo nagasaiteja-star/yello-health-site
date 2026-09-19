@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Investor room — Yello</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#fffdf7">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=20260919">
+<link rel="stylesheet" href="/room/room.css?v=20260919">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="logo" href="/"><img src="/assets/yello-logo_light.png" alt="Yello" width="70" height="34"><span class="sub">Investor room</span></a>
+    <span class="who" id="who" hidden></span>
+  </div>
+</header>
+
+<main id="app" aria-live="polite">
+  <!-- loading -->
+  <section class="screen" data-screen="loading"><div class="card"><p class="muted">Opening your room…</p></div></section>
+
+  <!-- problem: no link / revoked / expired / error -->
+  <section class="screen" data-screen="problem" hidden>
+    <div class="card">
+      <span class="eyebrow">Investor room</span>
+      <h1 id="p-title">This link isn't active.</h1>
+      <p class="muted" id="p-body"></p>
+      <p style="margin-top:18px"><a class="btn btn-gold" href="/investors/#request">Request access</a></p>
+    </div>
+  </section>
+
+  <!-- gate: email (+ passcode) -->
+  <section class="screen" data-screen="gate" hidden>
+    <form class="card" id="gateForm" novalidate>
+      <span class="eyebrow">Investor room</span>
+      <h1 id="g-title">Confirm it's you.</h1>
+      <p class="muted">Enter the email this link was sent to.</p>
+      <div class="field" style="margin-top:18px"><label for="g-email">Email</label><input id="g-email" type="email" autocomplete="email" required></div>
+      <div class="field" id="g-pass-wrap" hidden><label for="g-pass">Passcode</label><input id="g-pass" type="password" autocomplete="off"></div>
+      <button class="btn btn-gold" type="submit" style="width:100%">Continue</button>
+      <p class="msg" role="alert"></p>
+    </form>
+  </section>
+
+  <!-- confidentiality acknowledgement -->
+  <section class="screen" data-screen="nda" hidden>
+    <form class="card wide" id="ndaForm" novalidate>
+      <span class="eyebrow">Before you read</span>
+      <h1>Confidentiality acknowledgement</h1>
+      <div class="nda-text" tabindex="0">
+        <p>The materials in this room are shared by NDIAN Healthcare Private Limited ("Yello") only so you can evaluate a possible investment. By continuing you agree that:</p>
+        <ol>
+          <li>You will keep the materials and anything you learn from them confidential, and will not copy, forward, screenshot or share them, except with your own advisers who are bound by the same duty.</li>
+          <li>You will use them only to evaluate an investment in the company.</li>
+          <li>Figures in the materials are plans and estimates, not guarantees, and nothing here is an offer of securities.</li>
+          <li>Your views are recorded (who, which pages, how long) so the founders can follow up with you.</li>
+          <li>You will return or delete the materials if the company asks.</li>
+        </ol>
+        <p class="ver">Version <span id="n-ver"></span></p>
+      </div>
+      <div class="field" style="margin-top:16px"><label for="n-name">Your full name</label><input id="n-name" autocomplete="name" required></div>
+      <label class="check"><input type="checkbox" id="n-agree" required> <span>I have read and agree to the above.</span></label>
+      <button class="btn btn-gold" type="submit" style="width:100%;margin-top:14px">Agree and enter</button>
+      <p class="msg" role="alert"></p>
+    </form>
+  </section>
+
+  <!-- doc list -->
+  <section class="screen" data-screen="list" hidden>
+    <div class="wrap list-wrap">
+      <span class="eyebrow">Investor room</span>
+      <h1 class="display list-h" id="l-title">Welcome.</h1>
+      <p class="muted">Documents shared with you. Pick one to read.</p>
+      <ul class="docs" id="docs"></ul>
+      <p class="empty muted" id="l-empty" hidden>Nothing has been shared with you yet. We'll email you when documents are ready.</p>
+    </div>
+  </section>
+
+  <!-- viewer -->
+  <section class="screen viewer" data-screen="view" hidden>
+    <div class="v-bar">
+      <button class="v-btn" id="v-back" type="button">← All documents</button>
+      <span class="v-title" id="v-title"></span>
+      <span class="v-count" id="v-count"></span>
+    </div>
+    <div class="v-legal" id="v-legal" hidden>Draft, not for signature. Execution copies are issued separately by NDIAN Healthcare Private Limited.</div>
+    <div class="v-stage" id="v-stage">
+      <button class="v-nav prev" id="v-prev" type="button" aria-label="Previous page">‹</button>
+      <div class="v-page" id="v-page">
+        <img id="v-img" alt="" draggable="false">
+        <div class="v-mark" id="v-mark" aria-hidden="true"></div>
+        <div class="v-loading" id="v-loading">Loading page…</div>
+      </div>
+      <button class="v-nav next" id="v-next" type="button" aria-label="Next page">›</button>
+    </div>
+    <div class="v-dots" id="v-dots" aria-hidden="true"></div>
+  </section>
+</main>
+
+<script src="/assets/room-config.js?v=20260919"></script>
+<script src="/room/room.js?v=20260919"></script>
+</body>
+</html>

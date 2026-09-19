@@ -1,0 +1,55 @@
+/* Yello Investor Room — viewer styles (tokens from /assets/site.css) */
+[hidden]{display:none!important}
+.top .who{margin-left:auto;font-size:.88rem;color:var(--muted);font-weight:600;max-width:50vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.screen{min-height:calc(100vh - 68px);min-height:calc(100dvh - 68px);display:flex;align-items:center;justify-content:center;padding:32px 16px}
+.card{width:min(460px,100%);background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(24px,4vw,36px)}
+.card.wide{width:min(620px,100%)}
+.card h1{font-size:clamp(1.6rem,4vw,2.1rem);margin:12px 0 8px}
+.nda-text{margin-top:14px;max-height:min(46vh,340px);overflow:auto;border:1px solid var(--line);border-radius:6px;background:var(--tint);padding:16px 18px;font-size:.95rem}
+.nda-text ol{margin:10px 0 0 20px;display:grid;gap:8px}
+.nda-text .ver{margin-top:12px;font-size:.8rem;color:var(--muted)}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:600;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--teal)}
+
+/* list */
+.screen[data-screen="list"]{align-items:flex-start}
+.list-wrap{padding:clamp(20px,5vw,56px) 0}
+.list-h{font-size:clamp(3rem,8vw,5.4rem);color:var(--charcoal);margin:10px 0 6px}
+.docs{list-style:none;margin-top:26px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.docs button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:8px;width:100%;min-height:150px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
+.docs button:hover{transform:translateY(-3px);border-color:var(--brand)}
+.docs button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.docs .d-k{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--teal)}
+.docs .d-t{font-size:1.2rem;font-weight:800}
+.docs .d-m{margin-top:auto;color:var(--muted);font-size:.9rem}
+.docs .d-legal{color:var(--alert)}
+.empty{margin-top:26px}
+
+/* viewer — night stage so pages read like slides */
+.viewer{flex-direction:column;align-items:stretch;justify-content:flex-start;padding:0;background:var(--night);min-height:calc(100dvh - 68px)}
+.v-bar{display:flex;align-items:center;gap:12px;padding:10px 16px;color:#e8e6df;border-bottom:1px solid rgba(255,255,255,.08)}
+.v-btn{background:transparent;color:#e8e6df;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:8px 12px;font:600 .9rem var(--font-body);cursor:pointer;min-height:40px}
+.v-btn:hover{border-color:var(--brand)}
+.v-title{font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.v-count{font-variant-numeric:tabular-nums;color:#b7b5ad;font-size:.92rem}
+.v-legal{background:var(--alert);color:#fff;text-align:center;font-weight:700;font-size:.88rem;padding:8px 16px}
+.v-stage{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 8px;position:relative}
+.v-page{position:relative;max-width:min(1400px,100%);min-width:200px;min-height:120px;display:block;overflow:hidden;border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,.45);user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.v-page img{display:block;max-width:100%;max-height:calc(100dvh - 68px - 120px);height:auto;background:#fff;pointer-events:none}
+.v-mark{position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:.14;color:#242424;font-weight:700;font-size:15px;line-height:5.2;white-space:pre;display:flex;align-items:center;justify-content:center}
+.v-mark span{transform:rotate(-24deg);text-align:center}
+.v-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b7b5ad;font-weight:600}
+.v-nav{flex:0 0 auto;width:48px;height:72px;border:0;border-radius:6px;background:rgba(255,255,255,.08);color:#fff;font-size:2rem;cursor:pointer}
+.v-nav:hover:not(:disabled){background:var(--brand);color:var(--brand-ink)}
+.v-nav:disabled{opacity:.25;cursor:default}
+.v-dots{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;padding:0 16px 18px}
+.v-dots i{width:18px;height:4px;border-radius:2px;background:rgba(255,255,255,.2)}
+.v-dots i.on{background:var(--brand)}
+.v-dots i.seen{background:rgba(255,196,12,.45)}
+@media(max-width:640px){
+  .v-nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:56px;background:rgba(10,15,30,.55);z-index:2}
+  .v-nav.prev{left:4px}.v-nav.next{right:4px}
+  .v-page img{max-height:none}
+  .v-title{font-size:.92rem}
+}
+@media print{body *{display:none!important}body::after{content:'Printing is disabled for the Yello investor room.';display:block;padding:40px;font:700 18px Barlow,sans-serif}}

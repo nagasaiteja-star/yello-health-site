@@ -1,3 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /room/
+Disallow: /apps-script/
+Disallow: /tools/
 Sitemap: https://yello.health/sitemap.xml

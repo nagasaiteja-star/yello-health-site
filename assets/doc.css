@@ -1,0 +1,42 @@
+/* Yello legal & FAQ pages (ported from yello-website/page.css, Barlow per brand guide) */
+:root{--ink:#242424;--muted:#6a6d73;--line:#e4e0d8;--paper:#fffdf7;--tint:#fbf7ec;--brand:#ffc40c;--brand-ink:#201900;--teal:#0f766e}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',Inter,system-ui,-apple-system,sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased}
+.top{position:sticky;top:0;z-index:10;background:rgba(255,253,247,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top-in{max-width:980px;margin:0 auto;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink)}
+.brand img{height:26px;width:auto;display:block}
+.brand .sub{font-weight:800;font-size:1.02rem}
+.back{font-size:.9rem;font-weight:600;color:var(--teal);text-decoration:none;border:1px solid var(--line);padding:8px 14px;border-radius:6px;white-space:nowrap}
+.back:hover{border-color:var(--teal)}
+main{max-width:820px;margin:0 auto;padding:46px 22px 72px}
+.eyebrow{display:inline-block;border-left:4px solid var(--brand);padding-left:10px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px}
+h1{font-size:clamp(2rem,4vw,2.7rem);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:10px}
+.updated{color:var(--muted);font-size:.9rem;margin-bottom:28px}
+h2{font-size:1.3rem;font-weight:800;margin:36px 0 10px;scroll-margin-top:80px}
+h3{font-size:1.04rem;font-weight:700;margin:18px 0 6px}
+p,li{color:#34322b}
+p{margin-bottom:11px}
+ul,ol{padding-left:22px;margin-bottom:13px}
+li{margin-bottom:6px}
+a{color:var(--teal)}
+strong{color:var(--ink)}
+.note{background:var(--tint);border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:6px;padding:14px 16px;font-size:.92rem;color:var(--muted);margin:20px 0}
+.toc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 22px;margin-bottom:30px}
+.toc strong{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.toc a{display:inline-block;width:48%;padding:3px 0;font-size:.93rem}
+@media(max-width:560px){.toc a{width:100%}}
+details{border:1px solid var(--line);border-radius:10px;background:#fff;margin-bottom:11px;overflow:hidden}
+details summary{padding:15px 18px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:14px;align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:'+';color:var(--teal);font-weight:800;font-size:1.3rem;line-height:1}
+details[open] summary::after{content:'\2013'}
+details .a{padding:0 18px 16px;color:#34322b}
+details .a p{margin-bottom:8px}
+.faq-group{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin:28px 0 10px}
+footer{background:#242424;color:#b7b5ad;padding:32px 22px;font-size:.9rem;margin-top:10px}
+.foot-in{max-width:980px;margin:0 auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+footer a{color:#b7b5ad;text-decoration:none;margin-right:16px}
+footer a:hover{color:var(--brand)}
+.foot-legal{color:#76746c;font-size:.8rem}

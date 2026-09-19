@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://yello.health/</loc></url>
+  <url><loc>https://yello.health/about</loc></url>
   <url><loc>https://yello.health/partners/</loc></url>
+  <url><loc>https://yello.health/partners/partner-faq.html</loc></url>
+  <url><loc>https://yello.health/investors/</loc></url>
+  <url><loc>https://yello.health/terms.html</loc></url>
+  <url><loc>https://yello.health/privacy.html</loc></url>
 </urlset>
