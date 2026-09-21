@@ -91,12 +91,12 @@
   .band{background:var(--paper-2);border:1px solid var(--line)}
 
   /* proof bars */
-  .proof{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:end;height:260px;padding:10px 10px 0}
+  .proof{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:end;height:260px;padding:10px 10px 0}
   .bar{border-radius:12px 12px 0 0;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;padding-top:14px;color:#fffdf7}
   .bar b{font-family:var(--hero);font-weight:400;font-size:clamp(40px,5vw,60px);line-height:1}
   .bar span{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
-  .bar.a{height:66%;background:var(--ink-2)} .bar.b{height:100%;background:var(--brand);color:var(--brand-ink)}
-  .proof-x{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:10px;text-align:center;font-weight:700;font-size:.9rem;color:var(--muted)}
+  .bar.a{height:40%;background:var(--ink-2)} .bar.m{height:59%;background:var(--teal)} .bar.b{height:100%;background:var(--brand);color:var(--brand-ink)}
+  .proof-x{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:10px;text-align:center;font-weight:700;font-size:.9rem;color:var(--muted)}
 
   /* team */
   .team{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
@@ -246,17 +246,18 @@
   <!-- PROOF -->
   <section class="block split" aria-labelledby="h-proof">
     <div>
-      <p class="eyebrow">What we're proving first</p>
-      <h2 id="h-proof">One real centre, ₹50 L to ₹75 L a month, on our demand.</h2>
-      <p class="lead">Before we scale, one partner centre has to show the lift in its own books, measured monthly. The room holds the plan and how we measure it.</p>
+      <p class="eyebrow">One centre</p>
+      <h2 id="h-proof">₹34.5 lakh a month becomes ₹87 lakh.</h2>
+      <p class="lead">The owner's scanner doesn't change; the calendar does. Our demand lifts a centre by half in its first year, and keeps compounding to maturity. The room has the workings.</p>
     </div>
     <figure class="figure">
-      <div class="proof" role="img" aria-label="Goal: monthly revenue from 50 lakh to 75 lakh rupees">
-        <div class="bar a"><b>₹50 L</b><span>today</span></div>
-        <div class="bar b"><b>₹75 L</b><span>the goal</span></div>
+      <div class="proof" role="img" aria-label="Monthly revenue per centre: 34.5 lakh before Yello, 51.8 lakh in year one, 87.4 lakh at maturity">
+        <div class="bar a"><b>₹34.5 L</b><span>before us</span></div>
+        <div class="bar m"><b>₹51.8 L</b><span>year 1</span></div>
+        <div class="bar b"><b>₹87.4 L</b><span>at maturity</span></div>
       </div>
-      <div class="proof-x"><span>A centre's month before Yello</span><span>On Yello demand</span></div>
-      <figcaption>A target, not a result — tracked month by month in the centre's own P&amp;L.</figcaption>
+      <div class="proof-x"><span>A centre's month today</span><span>On Yello demand</span><span>Fully ramped</span></div>
+      <figcaption>Illustrative base case, pilot to confirm. Blended across the cohort; workings in the room.</figcaption>
     </figure>
   </section>
 
