@@ -1,6 +1,6 @@
 # Yello Investor Room — deploy & run
 
-A data room in the style of Papermark: an email-gated link per investor, a confidentiality click-through, page-by-page time tracking and an instant kill switch. It runs on Google Sheets and Apps Script under **drnagasaiteja@yello.health**, costs ₹0 and needs no new vendor.
+A data room in the style of Papermark: an email-gated link per investor, a confidentiality click-through, page-by-page time tracking and an instant kill switch. It runs on Google Sheets and Apps Script under **dr.nagasaiteja@yello.health**, costs ₹0 and needs no new vendor.
 
 | Piece | Where |
 |---|---|
@@ -9,14 +9,14 @@ A data room in the style of Papermark: an email-gated link per investor, a confi
 | API + admin | This Apps Script project, bound to the Sheet **Yello Investor Room** |
 | Documents | Drive: `Yello Investor Room/docs/<doc-id>/p01.png, p02.png…`. **Never put them in this repo**, because the repo is public. |
 
-## One-time setup (≈10 min, signed in as drnagasaiteja@yello.health)
+## One-time setup (≈10 min, signed in as dr.nagasaiteja@yello.health)
 1. Create a new Google Sheet named **Yello Investor Room**.
 2. Open **Extensions → Apps Script**. Create two script files, `Code.gs` and `Admin.gs`, and paste in this folder's files.
 3. Reload the Sheet. A **Yello Room** menu appears. Run **Yello Room → Set up room (first run)** and approve the permissions it asks for (Sheets, Drive, mail, triggers). This step:
    - creates the tabs: Links, Requests, NDA, Views, Docs and Dashboard;
    - creates the Drive folder;
    - sets up a daily digest email at 19:00 IST;
-   - sends alerts to **drnagasaiteja@yello.health** (partners@yello.health is an alias of it). To send them somewhere else, change `ALERT_EMAIL` under **Project Settings → Script properties**.
+   - sends alerts to **dr.nagasaiteja@yello.health** (partners@yello.health is a group that also delivers to Teja and Kiran). To send them somewhere else, change `ALERT_EMAIL` under **Project Settings → Script properties**.
 4. **Deploy → New deployment → Web app**, with *Execute as: Me* and *Who has access: Anyone*. Copy the `/exec` URL.
 5. Paste that URL into `assets/room-config.js` as `ROOM_API`, bump the `?v=` query in `room/index.html` and `investors/index.html`, then commit and push. **Pushing publishes the site. Ask Teja before pushing.**
 

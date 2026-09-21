@@ -22,7 +22,7 @@ function setupRoom() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const props = PropertiesService.getScriptProperties();
   props.setProperty('SHEET_ID', ss.getId());
-  if (!props.getProperty('ALERT_EMAIL')) props.setProperty('ALERT_EMAIL', 'drnagasaiteja@yello.health');   // partners@yello.health is an alias of this mailbox
+  if (!props.getProperty('ALERT_EMAIL')) props.setProperty('ALERT_EMAIL', 'dr.nagasaiteja@yello.health');   // partners@yello.health is a group that also delivers here
   if (!props.getProperty('ROOM_URL')) props.setProperty('ROOM_URL', 'https://yello.health/room/');
 
   Object.keys(ROOM.TABS).forEach(name => {
