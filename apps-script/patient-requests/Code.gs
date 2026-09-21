@@ -3,7 +3,7 @@
  *
  * The public site never books or charges: every "booking" is a request that lands here,
  * alerts the team by email, and gets a call back to confirm time, centre and price.
- * Bound to the Sheet "Yello Patient Requests" (owner admin@studiocahaya.com).
+ * Bound to the Sheet "Yello Patient Requests" (owner drnagasaiteja@yello.health).
  * Prescriptions (≤5 MB) are saved to Drive: "Yello Patient Requests/Prescriptions".
  *
  * DEPLOY: Web app · Execute as Me · Access Anyone. Paste the /exec URL into
@@ -75,7 +75,7 @@ function doPost(e) {
 function setup() {
   const ss = SpreadsheetApp.getActiveSpreadsheet(), props = PropertiesService.getScriptProperties();
   props.setProperty('SHEET_ID', ss.getId());
-  if (!props.getProperty('ALERT_EMAIL')) props.setProperty('ALERT_EMAIL', Session.getEffectiveUser().getEmail());
+  if (!props.getProperty('ALERT_EMAIL')) props.setProperty('ALERT_EMAIL', 'drnagasaiteja@yello.health');   // partners@yello.health is an alias of this mailbox
   Object.keys(LEADS.TABS).forEach(name => {
     const sh = ss.getSheetByName(name) || ss.insertSheet(name);
     sh.getRange(1, 1, 1, LEADS.TABS[name].length).setValues([LEADS.TABS[name]]).setFontWeight('bold').setBackground('#fbf7ec');

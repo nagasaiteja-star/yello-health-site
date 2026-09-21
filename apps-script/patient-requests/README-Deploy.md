@@ -1,9 +1,9 @@
-# Yello Patient Requests — deploy (≈5 min, as admin@studiocahaya.com)
+# Yello Patient Requests — deploy (≈5 min, signed in as drnagasaiteja@yello.health)
 
 Every "booking" on yello.health is a **request**: nothing is booked or charged online. Requests land in a Sheet, you get an email for each one, and the team calls to confirm the time, the partner centre and the final price.
 
 1. Create a Google Sheet named **Yello Patient Requests**. Open **Extensions → Apps Script** and paste `Code.gs`.
-2. In the editor, select `setup` and click **Run**. Approve the permissions (Sheets, Drive, mail). This creates the tabs Bookings, Prescriptions, Contact and Subscribers, plus a Drive folder for prescriptions. Alerts go to the account that ran it; change `ALERT_EMAIL` under Script properties to send them elsewhere.
+2. In the editor, select `setup` and click **Run**. Approve the permissions (Sheets, Drive, mail). This creates the tabs Bookings, Prescriptions, Contact and Subscribers, plus a Drive folder for prescriptions. Alerts go to **drnagasaiteja@yello.health** (partners@yello.health is an alias of it); change `ALERT_EMAIL` under Script properties to send them elsewhere.
 3. **Deploy → New deployment → Web app**, with *Execute as: Me* and *Access: Anyone*. Copy the `/exec` URL.
 4. Paste it into `assets/leads-config.js` as `LEADS_API`, then commit and push (ask Teja before pushing).
 

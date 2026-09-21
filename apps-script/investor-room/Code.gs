@@ -1,7 +1,7 @@
 /**
  * Yello Investor Room — JSON API (Papermark-style data room on Apps Script).
  *
- * Bound to the Google Sheet "Yello Investor Room" (owner admin@studiocahaya.com).
+ * Bound to the Google Sheet "Yello Investor Room" (owner drnagasaiteja@yello.health).
  * The static viewer at yello.health/room/?k=<token> and the request form at
  * yello.health/investors/ call this web app with POST text/plain JSON (no CORS
  * preflight). Documents are PNG page images in Drive — never in the public repo.

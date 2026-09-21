@@ -269,7 +269,7 @@ function footer() {
           <p class="muted">${["Full Body checkup in Hyderabad", "Thyroid test in Hyderabad", "MRI scan in Hyderabad"].map((item) => `<a href="#browse" data-search="${escapeAttr(item)}">${escapeHtml(item)}</a>`).join("<br>")}</p>
         </div>
       </div>
-      <p class="muted copyright">© ${new Date().getFullYear()} NDIAN Healthcare Private Limited · Yello is our network brand · Hyderabad${PUBLIC ? "" : " (prototype)"}</p>
+      <p class="muted copyright">© ${new Date().getFullYear()} NDIAN Healthcare Private Limited · CIN U86905TS2026PTC223050 · Regd. office: 3rd Floor, 8-2-231/18, Nagarjuna Hills Road, Mothi Nagar, Punjagutta, Hyderabad, Telangana 500082 · Yello is our network brand${PUBLIC ? "" : " (prototype)"}</p>
     </footer>
   `;
 }
