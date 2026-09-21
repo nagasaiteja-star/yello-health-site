@@ -29,7 +29,7 @@ dest = pathlib.Path(sys.argv[1])
 
 # 1. index.html: public flag + lead endpoint + sandbox runtime before app.js
 inject = (
-    '<script src="/assets/leads-config.js"></script>\n    '
+    '<script src="/assets/leads-config.js?v=20260921"></script>\n    '
     '<script>globalThis.process={argv:[],env:{},on(){}};'
     'globalThis.Buffer={concat:a=>({toString:()=>a.join("")}),'
     'from:s=>({toString:e=>e==="base64"?btoa(unescape(encodeURIComponent(String(s)))):String(s)})};</script>\n    '
