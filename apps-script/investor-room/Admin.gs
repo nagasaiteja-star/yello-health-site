@@ -11,6 +11,7 @@ function onOpen() {
     .addItem('Approve selected request', 'menuApproveRequest')
     .addItem('Revoke selected link', 'menuRevokeLink')
     .addItem('Email link for selected row…', 'menuEmailLink')
+    .addItem('Invite several investors…', 'menuInviteMany')
     .addItem('Preview link for me (sees drafts)', 'menuPreviewLink')
     .addItem('Block an email or domain…', 'menuBlock')
     .addSeparator()
@@ -117,6 +118,7 @@ function _createLink(o) {
   _withLock(() => _tab('Links').appendRow([token, o.investor, o.firm, o.email, String(o.passcode || ''), o.docs, expires, 'active', new Date(), '', '', 0, '',
                                            o.download ? 'Y' : 'N', o.allow || '', o.preview ? 'Y' : 'N']));
   const url = _roomUrl(token);
+  if (o.silent === 'quiet') return token;
   if (o.silent) { ui.alert('Preview link (shows drafts too, 30 days):\n' + url); return token; }
   if (o.email !== '*' && ui.alert('Link created:\n' + url + '\n\nEmail it to ' + o.email + ' now? (You see the full email before it goes.)', ui.ButtonSet.YES_NO) === ui.Button.YES) {
     _sendInvite(_link(token), ui);
@@ -138,14 +140,15 @@ function menuEmailLink() {
 }
 
 /** The invitation, in Teja's voice. Lists the documents the link can actually see. Asks before sending. */
-function _inviteEmail(link, greet) {
+function _inviteEmail(link, greet, invited) {
   const first = greet || String(link.investor || '').trim().split(/\s+/)[0] || 'there';
   const docs = _allowedDocs(link).filter(d => _yes(d.published));
   const list = docs.length ? docs.map(d => '  • ' + d.title + (_yes(d.legal) ? ' (draft, not for signature)' : '')).join('\n') : '  • The pre-seed documents (being added now)';
   const exp = link.expires ? Utilities.formatDate(new Date(link.expires), 'Asia/Kolkata', 'd MMMM yyyy') : '';
   const body =
     'Dear ' + first + ',\n\n' +
-    'Thank you for your interest in Yello. Your access to our investor room is ready:\n\n' +
+    (invited ? 'I am pleased to share the Yello investor room with you. Your personal access is ready:\n\n'
+             : 'Thank you for your interest in Yello. Your access to our investor room is ready:\n\n') +
     _roomUrl(link.token) + '\n\n' +
     'The link is personal to you and opens with this email address (' + link.email + ')' + (String(link.passcode || '').trim() ? ' and the passcode I will share separately' : '') +
     '. After a short confidentiality note, you will find:\n\n' + list + '\n\n' +
@@ -164,13 +167,51 @@ function _sendInvite(link, ui) {
   // Indian names often lead with the surname, so ask what to call them.
   const guess = String(link.investor || '').trim().split(/\s+/)[0] || '';
   const greet = _ask(ui, 'Greeting — "Dear ___" (default: ' + (guess || 'there') + ')'); if (greet === null) return;
-  const m = _inviteEmail(link, greet || guess);
-  if (ui.alert('Send this email?\n\nTo: ' + m.to + '\nSubject: ' + m.subject + '\n\n' + m.body, ui.ButtonSet.YES_NO) !== ui.Button.YES) return ui.alert('Not sent. Use Yello Room → Email link for selected row… when ready.');
-  MailApp.sendEmail({ to: m.to, subject: m.subject, body: m.body, name: 'Dr. Naga Sai Teja G (Yello)',
-                      replyTo: PropertiesService.getScriptProperties().getProperty('ALERT_EMAIL') || 'dr.nagasaiteja@yello.health' });
+  const m = _inviteEmail(link, greet || guess, !_fromRequest(link));
+  if (ui.alert('Send this email?\n\nTo: ' + m.to + (_cc() ? '\nCc: ' + _cc() : '') + '\nSubject: ' + m.subject + '\n\n' + m.body, ui.ButtonSet.YES_NO) !== ui.Button.YES) return ui.alert('Not sent. Use Yello Room → Email link for selected row… when ready.');
+  _mailInvite(link, m);
+  ui.alert('Sent to ' + m.to + (_cc() ? ' (cc ' + _cc() + ')' : '') + '.');
+}
+
+/** Co-founder copied on every invitation (script property CC_EMAIL; blank = none). */
+function _cc() {
+  const p = PropertiesService.getScriptProperties().getProperty('CC_EMAIL');
+  return p === null ? 'drsandeep@yello.health' : p;
+}
+function _fromRequest(link) { return _rows('Requests').some(r => String(r.token) === String(link.token)); }
+function _mailInvite(link, m) {
+  const msg = { to: m.to, subject: m.subject, body: m.body, name: 'Dr. Naga Sai Teja G (Yello)',
+                replyTo: PropertiesService.getScriptProperties().getProperty('ALERT_EMAIL') || 'dr.nagasaiteja@yello.health' };
+  if (_cc()) msg.cc = _cc();
+  MailApp.sendEmail(msg);
   const sh = _tab('Links'), C = _col('Links');
   sh.getRange(link._row, C.notes).setValue(String(link.notes || '') + (link.notes ? ' · ' : '') + 'invite emailed ' + Utilities.formatDate(new Date(), 'Asia/Kolkata', 'd MMM HH:mm'));
-  ui.alert('Sent to ' + m.to + '.');
+}
+
+/**
+ * Several investors at once: entries separated by ";", each "email, full name, greeting, firm" (name/greeting/firm optional).
+ * One personal link per email (an existing active link is reused), then one confirmation that shows every recipient and the first email in full.
+ */
+function menuInviteMany() {
+  const ui = SpreadsheetApp.getUi();
+  const raw = _ask(ui, 'Investors, separated by ";" — each: email, full name, greeting, firm\ne.g. venkat@care9.com, Venkat, Venkat, Care9; rahul@x.com, Rahul Kongara, Rahul'); if (!raw) return;
+  const people = raw.split(';').map(x => x.split(',').map(y => y.trim())).filter(x => x[0]).map(x => ({ email: _email(x[0]), name: x[1] || '', greet: x[2] || '', firm: x[3] || '', raw: x[0] }));
+  const bad = people.filter(p => !p.email || p.email === '*');
+  if (bad.length) return ui.alert('These don\'t look like emails: ' + bad.map(p => p.raw).join(', ') + '. Nothing was created.');
+  const docs = _ask(ui, 'Docs for all of them: "all", or doc ids separated by commas'); if (docs === null) return;
+  const days = _ask(ui, 'Expires in how many days? (blank = never)'); if (days === null) return;
+  const dl = ui.alert('Allow downloads for these links? (Watermarked and logged.)', ui.ButtonSet.YES_NO) === ui.Button.YES;
+  const links = people.map(p => {
+    const existing = _rows('Links').filter(l => l.email === p.email && !_linkProblem(l) && !_yes(l.preview))[0];
+    const token = existing ? existing.token : _createLink({ investor: p.name || p.greet || p.email, firm: p.firm, email: p.email, passcode: '', docs: docs || 'all', days: days, download: dl, silent: 'quiet' });
+    return { p: p, link: _link(token), reused: !!existing };
+  });
+  const mails = links.map(x => ({ x: x, m: _inviteEmail(x.link, x.p.greet || String(x.link.investor || '').split(/\s+/)[0], true) }));
+  const summary = mails.map(y => '• ' + y.m.to + ' — "Dear ' + (y.x.p.greet || String(y.x.link.investor || '').split(/\s+/)[0]) + '"' + (y.x.reused ? ' (existing link)' : '')).join('\n');
+  if (ui.alert('Send ' + mails.length + ' invitations?' + (_cc() ? ' Cc ' + _cc() + ' on each.' : '') + '\n\n' + summary + '\n\n— First email in full —\nSubject: ' + mails[0].m.subject + '\n\n' + mails[0].m.body,
+               ui.ButtonSet.YES_NO) !== ui.Button.YES) return ui.alert('Links created, nothing sent. Send each later with Email link for selected row….');
+  mails.forEach(y => _mailInvite(_link(y.x.link.token), y.m));
+  ui.alert('Sent ' + mails.length + ' invitations.');
 }
 
 function _roomUrl(token) {
