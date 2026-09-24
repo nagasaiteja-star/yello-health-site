@@ -138,8 +138,8 @@ function menuEmailLink() {
 }
 
 /** The invitation, in Teja's voice. Lists the documents the link can actually see. Asks before sending. */
-function _inviteEmail(link) {
-  const first = String(link.investor || '').trim().split(/\s+/)[0] || 'there';
+function _inviteEmail(link, greet) {
+  const first = greet || String(link.investor || '').trim().split(/\s+/)[0] || 'there';
   const docs = _allowedDocs(link).filter(d => _yes(d.published));
   const list = docs.length ? docs.map(d => '  • ' + d.title + (_yes(d.legal) ? ' (draft, not for signature)' : '')).join('\n') : '  • The pre-seed documents (being added now)';
   const exp = link.expires ? Utilities.formatDate(new Date(link.expires), 'Asia/Kolkata', 'd MMMM yyyy') : '';
@@ -161,7 +161,10 @@ function _inviteEmail(link) {
 }
 
 function _sendInvite(link, ui) {
-  const m = _inviteEmail(link);
+  // Indian names often lead with the surname, so ask what to call them.
+  const guess = String(link.investor || '').trim().split(/\s+/)[0] || '';
+  const greet = _ask(ui, 'Greeting — "Dear ___" (default: ' + (guess || 'there') + ')'); if (greet === null) return;
+  const m = _inviteEmail(link, greet || guess);
   if (ui.alert('Send this email?\n\nTo: ' + m.to + '\nSubject: ' + m.subject + '\n\n' + m.body, ui.ButtonSet.YES_NO) !== ui.Button.YES) return ui.alert('Not sent. Use Yello Room → Email link for selected row… when ready.');
   MailApp.sendEmail({ to: m.to, subject: m.subject, body: m.body, name: 'Dr. Naga Sai Teja G (Yello)',
                       replyTo: PropertiesService.getScriptProperties().getProperty('ALERT_EMAIL') || 'dr.nagasaiteja@yello.health' });
