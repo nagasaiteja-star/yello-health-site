@@ -233,7 +233,7 @@
   var TRACKER = '<style>*{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}@media print{body{display:none!important}}</style>' +
     '<script>(function(){var P=function(m){m.yr=1;parent.postMessage(m,"*")};var secs=[].slice.call(document.querySelectorAll("section"));var cur=-1;' +
     'function best(){var b=0,bi=0,h=innerHeight;secs.forEach(function(s,i){var r=s.getBoundingClientRect();var v=Math.max(0,Math.min(r.bottom,h)-Math.max(r.top,0));if(v>b+1){b=v;bi=i}});return bi}' +
-    'function upd(){var n=best();if(n!==cur){cur=n;P({t:"slide",n:n+1,of:secs.length})}}var q=0;function sch(){if(!q){q=1;requestAnimationFrame(function(){q=0;upd()})}}' +
+    'function upd(){var n=best();if(n!==cur){cur=n;P({t:"slide",n:n+1,of:secs.length})}}var q=0;function sch(){if(!q){q=1;setTimeout(function(){q=0;upd()},120)}}' +
     'addEventListener("scroll",sch,{passive:true});addEventListener("resize",sch);addEventListener("load",upd);setTimeout(upd,50);' +
     'var la=0;["mousemove","wheel","keydown","touchstart","scroll","click"].forEach(function(t){addEventListener(t,function(){var n=Date.now();if(n-la>2000){la=n;P({t:"act"})}},{passive:true})});' +
     'function go(n,i){n=Math.max(0,Math.min(secs.length-1,n));if(secs[n])secs[n].scrollIntoView({behavior:i?"instant":"smooth",block:"start"})}' +
