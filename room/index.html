@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=20260919">
-<link rel="stylesheet" href="/room/room.css?v=20260919">
+<link rel="stylesheet" href="/room/room.css?v=20260924b">
 </head>
 <body>
 
@@ -60,7 +60,7 @@
           <li>You will keep the materials and anything you learn from them confidential, and will not copy, forward, screenshot or share them, except with your own advisers who are bound by the same duty.</li>
           <li>You will use them only to evaluate an investment in the company.</li>
           <li>Figures in the materials are plans and estimates, not guarantees, and nothing here is an offer of securities.</li>
-          <li>Your views are recorded (who, which pages, how long) so the founders can follow up with you.</li>
+          <li>Your visits are recorded (who, which pages, how long, device and approximate location) so the founders can follow up with you.</li>
           <li>You will return or delete the materials if the company asks.</li>
         </ol>
         <p class="ver">Version <span id="n-ver"></span></p>
@@ -77,8 +77,8 @@
     <div class="wrap list-wrap">
       <span class="eyebrow">Investor room</span>
       <h1 class="display list-h" id="l-title">Welcome.</h1>
-      <p class="muted">Documents shared with you. Pick one to read.</p>
-      <ul class="docs" id="docs"></ul>
+      <p class="muted">Documents shared with you. Pick one to read. You can ask us a question from any page.</p>
+      <div id="folders"></div>
       <p class="empty muted" id="l-empty" hidden>Nothing has been shared with you yet. We'll email you when documents are ready.</p>
     </div>
   </section>
@@ -89,22 +89,46 @@
       <button class="v-btn" id="v-back" type="button">← All documents</button>
       <span class="v-title" id="v-title"></span>
       <span class="v-count" id="v-count"></span>
+      <button class="v-btn" id="v-ask" type="button">Ask a question</button>
+      <button class="v-btn" id="v-dl" type="button" hidden>Download</button>
     </div>
     <div class="v-legal" id="v-legal" hidden>Draft, not for signature. Execution copies are issued separately by NDIAN Healthcare Private Limited.</div>
     <div class="v-stage" id="v-stage">
       <button class="v-nav prev" id="v-prev" type="button" aria-label="Previous page">‹</button>
       <div class="v-page" id="v-page">
         <img id="v-img" alt="" draggable="false">
+        <iframe id="v-frame" title="Document" sandbox="allow-scripts" referrerpolicy="no-referrer" hidden></iframe>
         <div class="v-mark" id="v-mark" aria-hidden="true"></div>
         <div class="v-loading" id="v-loading">Loading page…</div>
+        <div class="v-shield" id="v-shield" hidden><span>Paused. Return to this window to keep reading.</span></div>
       </div>
       <button class="v-nav next" id="v-next" type="button" aria-label="Next page">›</button>
     </div>
     <div class="v-dots" id="v-dots" aria-hidden="true"></div>
+    <form class="v-feedback" id="fbForm" hidden novalidate>
+      <span class="fb-q">Was this useful?</span>
+      <button class="v-btn fb-r" type="button" data-r="useful">👍 Yes</button>
+      <button class="v-btn fb-r" type="button" data-r="not useful">👎 Not really</button>
+      <input id="fb-text" maxlength="2000" placeholder="Anything we should know? (optional)">
+      <button class="v-btn fb-send" type="submit">Send</button>
+      <span class="fb-msg" role="status"></span>
+    </form>
   </section>
+
+  <!-- ask a question -->
+  <div class="modal" id="askModal" hidden role="dialog" aria-modal="true" aria-labelledby="ask-h">
+    <form class="card" id="askForm" novalidate>
+      <span class="eyebrow" id="ask-where"></span>
+      <h1 id="ask-h">Ask the founders</h1>
+      <p class="muted">Your question goes straight to Dr. Naga Sai Teja and Dr. Sandeep. We reply to <b id="ask-email"></b>.</p>
+      <div class="field" style="margin-top:14px"><label for="ask-text">Your question</label><textarea id="ask-text" rows="5" maxlength="2000" required></textarea></div>
+      <div class="ask-row"><button class="btn btn-line" type="button" id="ask-cancel">Cancel</button><button class="btn btn-gold" type="submit">Send question</button></div>
+      <p class="msg" role="alert"></p>
+    </form>
+  </div>
 </main>
 
 <script src="/assets/room-config.js?v=20260921"></script>
-<script src="/room/room.js?v=20260919"></script>
+<script src="/room/room.js?v=20260924b"></script>
 </body>
 </html>
