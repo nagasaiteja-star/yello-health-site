@@ -10,6 +10,7 @@ function onOpen() {
     .addItem('New investor link…', 'menuNewLink')
     .addItem('Approve selected request', 'menuApproveRequest')
     .addItem('Revoke selected link', 'menuRevokeLink')
+    .addItem('Email link for selected row…', 'menuEmailLink')
     .addItem('Preview link for me (sees drafts)', 'menuPreviewLink')
     .addItem('Block an email or domain…', 'menuBlock')
     .addSeparator()
@@ -117,20 +118,56 @@ function _createLink(o) {
                                            o.download ? 'Y' : 'N', o.allow || '', o.preview ? 'Y' : 'N']));
   const url = _roomUrl(token);
   if (o.silent) { ui.alert('Preview link (shows drafts too, 30 days):\n' + url); return token; }
-  if (o.email !== '*' && ui.alert('Link created:\n' + url + '\n\nEmail it to ' + o.email + ' now?', ui.ButtonSet.YES_NO) === ui.Button.YES) {
-    MailApp.sendEmail({
-      to: o.email, name: 'Yello — NDIAN Healthcare', replyTo: PropertiesService.getScriptProperties().getProperty('ALERT_EMAIL'),
-      subject: 'Your private link to the Yello investor room',
-      body: 'Hello ' + (o.investor || '') + ',\n\nHere is your private link to the Yello investor room:\n' + url +
-        '\n\nIt is tied to this email address' + (o.passcode ? ' and a passcode we will share separately' : '') +
-        '. Please don\'t forward it; ask us and we will set up access for colleagues.\n\n' +
-        'You can ask us a question on any page from inside the room.\n\n— Yello (NDIAN Healthcare Private Limited)'
-    });
-    ui.alert('Sent to ' + o.email + '.');
+  if (o.email !== '*' && ui.alert('Link created:\n' + url + '\n\nEmail it to ' + o.email + ' now? (You see the full email before it goes.)', ui.ButtonSet.YES_NO) === ui.Button.YES) {
+    _sendInvite(_link(token), ui);
   } else if (o.email === '*') {
     ui.alert('Shareable link created' + (o.allow ? ' (only ' + o.allow + ')' : '') + ':\n' + url);
   }
   return token;
+}
+
+/** Re-send (or first send) the invitation for the selected Links row. Shows the full email first. */
+function menuEmailLink() {
+  const ui = SpreadsheetApp.getUi(), sh = SpreadsheetApp.getActiveSheet();
+  if (sh.getName() !== 'Links') return ui.alert('Select a row on the Links tab first.');
+  const row = sh.getActiveRange().getRow(); if (row < 2) return ui.alert('Select a link row.');
+  const link = _rows('Links').filter(l => l._row === row)[0];
+  if (!link || link.email === '*' || !_email(link.email)) return ui.alert('This row has no single investor email (shareable links are sent by hand).');
+  if (_linkProblem(link)) return ui.alert('This link is not active (' + _linkProblem(link) + ').');
+  _sendInvite(link, ui);
+}
+
+/** The invitation, in Teja's voice. Lists the documents the link can actually see. Asks before sending. */
+function _inviteEmail(link) {
+  const first = String(link.investor || '').trim().split(/\s+/)[0] || 'there';
+  const docs = _allowedDocs(link).filter(d => _yes(d.published));
+  const list = docs.length ? docs.map(d => '  • ' + d.title + (_yes(d.legal) ? ' (draft, not for signature)' : '')).join('\n') : '  • The pre-seed documents (being added now)';
+  const exp = link.expires ? Utilities.formatDate(new Date(link.expires), 'Asia/Kolkata', 'd MMMM yyyy') : '';
+  const body =
+    'Dear ' + first + ',\n\n' +
+    'Thank you for your interest in Yello. Your access to our investor room is ready:\n\n' +
+    _roomUrl(link.token) + '\n\n' +
+    'The link is personal to you and opens with this email address (' + link.email + ')' + (String(link.passcode || '').trim() ? ' and the passcode I will share separately' : '') +
+    '. After a short confidentiality note, you will find:\n\n' + list + '\n\n' +
+    'You can ask a question on any page from inside the room; it comes straight to me.' + (exp ? ' The link is active until ' + exp + '.' : '') +
+    ' If a colleague should see it too, reply with their email and I will set up their own access.\n\n' +
+    'I would be glad to walk you through it on a short call. Reply with a time that suits you.\n\n' +
+    'Warm regards,\n' +
+    'Dr. Naga Sai Teja G\n' +
+    'Co-founder, Yello\n' +
+    'NDIAN Healthcare Private Limited\n' +
+    'dr.nagasaiteja@yello.health';
+  return { to: link.email, subject: 'Yello investor room: your private access', body: body };
+}
+
+function _sendInvite(link, ui) {
+  const m = _inviteEmail(link);
+  if (ui.alert('Send this email?\n\nTo: ' + m.to + '\nSubject: ' + m.subject + '\n\n' + m.body, ui.ButtonSet.YES_NO) !== ui.Button.YES) return ui.alert('Not sent. Use Yello Room → Email link for selected row… when ready.');
+  MailApp.sendEmail({ to: m.to, subject: m.subject, body: m.body, name: 'Dr. Naga Sai Teja G (Yello)',
+                      replyTo: PropertiesService.getScriptProperties().getProperty('ALERT_EMAIL') || 'dr.nagasaiteja@yello.health' });
+  const sh = _tab('Links'), C = _col('Links');
+  sh.getRange(link._row, C.notes).setValue(String(link.notes || '') + (link.notes ? ' · ' : '') + 'invite emailed ' + Utilities.formatDate(new Date(), 'Asia/Kolkata', 'd MMM HH:mm'));
+  ui.alert('Sent to ' + m.to + '.');
 }
 
 function _roomUrl(token) {
