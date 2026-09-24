@@ -92,7 +92,7 @@ function menuRevokeLink() {
 /** A link for the founders that also shows unpublished drafts — to review a doc exactly as investors will see it. */
 function menuPreviewLink() {
   const ui = SpreadsheetApp.getUi();
-  const me = PropertiesService.getScriptProperties().getProperty('ALERT_EMAIL') || Session.getActiveUser().getEmail();
+  const me = PropertiesService.getScriptProperties().getProperty('ALERT_EMAIL') || 'dr.nagasaiteja@yello.health';
   const email = _ask(ui, 'Preview link — which email will you sign in with? (default ' + me + ')'); if (email === null) return;
   const e = _email(email || me); if (!e || e === '*') return ui.alert('Use a real email address.');
   _createLink({ investor: 'Preview (founders)', firm: 'Yello', email: e, passcode: '', docs: 'all', days: '30', download: true, preview: true, silent: true });
