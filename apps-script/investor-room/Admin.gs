@@ -44,7 +44,15 @@ function setupRoom() {
   _rootFolder_();
   refreshDashboard();
 
-  ScriptApp.getProjectTriggers().filter(t => ['sendDigest', 'refreshDashboard'].indexOf(t.getHandlerFunction()) >= 0).forEach(t => ScriptApp.deleteTrigger(t));
+  const rq = _tab('Requests'), RC = _col('Requests');
+  rq.getRange(2, RC.status, rq.getMaxRows() - 1, 1).setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(['new', 'approved', 'declined'], true).setAllowInvalid(false)
+    .setHelpText('Pick "approved" and the investor is emailed their private link at once (standard: all docs, 14 days, no downloads).').build());
+  rq.getRange(2, RC.downloads, rq.getMaxRows() - 1, 1).setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(['', 'Y', 'N'], true).setAllowInvalid(true).build());
+  rq.getRange(1, RC.greeting).setNote('Optional: how the email greets them, e.g. "Vijay". Blank = their full name. Fill BEFORE approving.');
+  rq.getRange(1, RC.days).setNote('Optional: access in days. Blank = 14.');
+  rq.getRange(1, RC.downloads).setNote('Optional: Y to allow downloads. Blank = no downloads.');
+  ScriptApp.getProjectTriggers().filter(t => ['sendDigest', 'refreshDashboard', 'onRequestEdit'].indexOf(t.getHandlerFunction()) >= 0).forEach(t => ScriptApp.deleteTrigger(t));
+  ScriptApp.newTrigger('onRequestEdit').forSpreadsheet(ss).onEdit().create();
   ScriptApp.newTrigger('sendDigest').timeBased().atHour(19).everyDays(1).inTimezone('Asia/Kolkata').create();
   ScriptApp.newTrigger('refreshDashboard').timeBased().everyHours(1).create();
   const def = ss.getSheetByName('Sheet1'); if (def && def.getLastRow() === 0) ss.deleteSheet(def);
@@ -72,13 +80,57 @@ function menuApproveRequest() {
   const ui = SpreadsheetApp.getUi(), sh = SpreadsheetApp.getActiveSheet();
   if (sh.getName() !== 'Requests') return ui.alert('Select a row on the Requests tab first.');
   const row = sh.getActiveRange().getRow(); if (row < 2) return ui.alert('Select a request row.');
-  const C = _col('Requests'), v = sh.getRange(row, 1, 1, ROOM.TABS.Requests.length).getValues()[0];
-  if (v[C.token - 1]) return ui.alert('This request already has a link.');
-  const docs = _ask(ui, 'Docs for ' + v[C.name - 1] + ': "all", or doc ids separated by commas'); if (docs === null) return;
-  const days = _ask(ui, 'Expires in how many days? (blank = never)'); if (days === null) return;
-  const dl = ui.alert('Allow downloads for ' + v[C.name - 1] + '? (Watermarked and logged.)', ui.ButtonSet.YES_NO) === ui.Button.YES;
-  const token = _createLink({ investor: v[C.name - 1], firm: v[C.firm - 1], email: _email(v[C.email - 1]), passcode: '', docs: docs || 'all', days: days, download: dl, requested: true });
-  if (token) { sh.getRange(row, C.status).setValue('approved'); sh.getRange(row, C.token).setValue(token); }
+  const r = approveRequestRow(row);
+  ui.alert(r.ok ? 'Approved and emailed ' + r.email + '.' : r.error);
+}
+
+/**
+ * Approving from the Requests tab: set status to "approved" in the dropdown and this runs (installable onEdit).
+ * Standard access unless the row says otherwise: all published docs, 14 days, no downloads.
+ * Optional per-row overrides: greeting (blank = full name), days, downloads (Y/N).
+ */
+const STANDARD = { docs: 'all', days: 14, download: false };
+
+function onRequestEdit(e) {
+  if (!e || !e.range) return;
+  const sh = e.range.getSheet();
+  if (sh.getName() !== 'Requests' || e.range.getColumn() > _col('Requests').status || e.range.getLastColumn() < _col('Requests').status) return;
+  for (let row = e.range.getRow(); row <= e.range.getLastRow(); row++) {
+    if (row < 2) continue;
+    if (String(sh.getRange(row, _col('Requests').status).getValue()).toLowerCase() !== 'approved') continue;
+    const r = approveRequestRow(row);
+    if (!r.ok && r.error !== 'already') _alert('Could not approve row ' + row + ' in Requests', r.error);
+  }
+}
+
+function approveRequestRow(row) {
+  // One approval per row even if the edit fires twice (the helpers below take the script lock themselves).
+  const cache = CacheService.getScriptCache(), key = 'approving:' + row;
+  if (cache.get(key)) return { ok: false, error: 'already' };
+  cache.put(key, '1', 120);
+  try {
+    const sh = _tab('Requests'), C = _col('Requests');
+    const v = sh.getRange(row, 1, 1, ROOM.TABS.Requests.length).getValues()[0];
+    const get = k => v[C[k] - 1];
+    if (get('token')) return { ok: false, error: 'already' };
+    const email = _email(get('email'));
+    if (!email || email === '*') { sh.getRange(row, C.sent).setValue('not sent — email looks wrong'); return { ok: false, error: 'Row ' + row + ': the email doesn\'t look right.' }; }
+    if (_blocked(email)) { sh.getRange(row, C.sent).setValue('not sent — email is on the block list'); return { ok: false, error: email + ' is on the block list.' }; }
+    const days = parseInt(get('days'), 10) > 0 ? parseInt(get('days'), 10) : STANDARD.days;
+    const dl = String(get('downloads')).trim() ? _yes(get('downloads')) : STANDARD.download;
+    const token = _createLink({ investor: get('name'), firm: get('firm'), email: email, passcode: '', docs: STANDARD.docs, days: days, download: dl, silent: 'quiet' });
+    sh.getRange(row, C.status).setValue('approved');
+    sh.getRange(row, C.token).setValue(token);
+    const link = _link(token);
+    const greet = String(get('greeting') || '').trim() || String(get('name') || '').trim();
+    _mailInvite(link, _inviteEmail(link, greet, false));
+    const when = Utilities.formatDate(new Date(), 'Asia/Kolkata', 'd MMM, HH:mm');
+    sh.getRange(row, C.sent).setValue('emailed ' + when + (_cc() ? ' (cc ' + _cc() + ')' : '') + ' · ' + days + ' days' + (dl ? ' · downloads on' : ''));
+    _alert('Approved: ' + (get('name') || email) + ' — link emailed',
+      'You approved ' + (get('name') || '') + ' <' + email + '>. Their private link went out at ' + when + (_cc() ? ', cc ' + _cc() : '') + '.\n' +
+      'Access: all published documents, ' + days + ' days, downloads ' + (dl ? 'on' : 'off') + '.');
+    return { ok: true, email: email };
+  } finally { cache.remove(key); }
 }
 
 function menuRevokeLink() {
@@ -111,7 +163,6 @@ function menuBlock() {
 }
 
 function _createLink(o) {
-  const ui = SpreadsheetApp.getUi();
   const token = Utilities.getUuid().replace(/-/g, '');
   const d = parseInt(o.days, 10);
   const expires = d > 0 ? new Date(Date.now() + d * 86400000) : '';
@@ -119,6 +170,7 @@ function _createLink(o) {
                                            o.download ? 'Y' : 'N', o.allow || '', o.preview ? 'Y' : 'N']));
   const url = _roomUrl(token);
   if (o.silent === 'quiet') return token;
+  const ui = SpreadsheetApp.getUi();
   if (o.silent) { ui.alert('Preview link (shows drafts too, 30 days):\n' + url); return token; }
   if (o.email !== '*' && ui.alert('Link created:\n' + url + '\n\nEmail it to ' + o.email + ' now? (You see the full email before it goes.)', ui.ButtonSet.YES_NO) === ui.Button.YES) {
     _sendInvite(_link(token), ui, o.requested);

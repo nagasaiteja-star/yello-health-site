@@ -24,7 +24,7 @@ const ROOM = {
   // New columns are only ever appended, so rows written by older versions stay aligned.
   TABS: {
     Links:     ['token','investor','firm','email','passcode','docs','expires','status','created','first_open','last_open','opens','notes','download','allow','preview'],
-    Requests:  ['ts','name','email','firm','type','link','note','status','token'],
+    Requests:  ['ts','name','email','firm','type','link','note','status','token','greeting','days','downloads','sent'],
     NDA:       ['ts','token','name','email','version'],
     Views:     ['first_seen','last_seen','token','email','doc','page','seconds','session'],
     Docs:      ['doc','title','pages','folder_id','published','legal','claims_checked','file_ids','notes','type','folder','order'],
@@ -76,7 +76,7 @@ function apiRequest(r) {
   _withLock(() => _tab('Requests').appendRow([new Date(), name, email, _clip(r.firm, 160), _clip(r.type, 60), _clip(r.link, 300), _clip(r.note, 1000), 'new', '']));
   _alert('Investor room request: ' + name + (r.firm ? ' (' + _clip(r.firm, 80) + ')' : ''),
     name + ' <' + email + '> asked for access.\nInvests as: ' + _clip(r.type, 60) + '\nLink: ' + _clip(r.link, 300) + '\nNote: ' + _clip(r.note, 1000) +
-    '\n\nApprove from the Sheet: select the row in Requests → Yello Room → Approve selected request.');
+    '\n\nTo approve: open the Requests tab and set their status to "approved". Their private link is emailed at once (all documents, 14 days, no downloads).\n' + _ss().getUrl() + '#gid=' + _tab('Requests').getSheetId());
   return { ok: true };
 }
 
