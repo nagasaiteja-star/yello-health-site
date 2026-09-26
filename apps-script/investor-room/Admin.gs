@@ -77,7 +77,7 @@ function menuApproveRequest() {
   const docs = _ask(ui, 'Docs for ' + v[C.name - 1] + ': "all", or doc ids separated by commas'); if (docs === null) return;
   const days = _ask(ui, 'Expires in how many days? (blank = never)'); if (days === null) return;
   const dl = ui.alert('Allow downloads for ' + v[C.name - 1] + '? (Watermarked and logged.)', ui.ButtonSet.YES_NO) === ui.Button.YES;
-  const token = _createLink({ investor: v[C.name - 1], firm: v[C.firm - 1], email: _email(v[C.email - 1]), passcode: '', docs: docs || 'all', days: days, download: dl });
+  const token = _createLink({ investor: v[C.name - 1], firm: v[C.firm - 1], email: _email(v[C.email - 1]), passcode: '', docs: docs || 'all', days: days, download: dl, requested: true });
   if (token) { sh.getRange(row, C.status).setValue('approved'); sh.getRange(row, C.token).setValue(token); }
 }
 
@@ -121,7 +121,7 @@ function _createLink(o) {
   if (o.silent === 'quiet') return token;
   if (o.silent) { ui.alert('Preview link (shows drafts too, 30 days):\n' + url); return token; }
   if (o.email !== '*' && ui.alert('Link created:\n' + url + '\n\nEmail it to ' + o.email + ' now? (You see the full email before it goes.)', ui.ButtonSet.YES_NO) === ui.Button.YES) {
-    _sendInvite(_link(token), ui);
+    _sendInvite(_link(token), ui, o.requested);
   } else if (o.email === '*') {
     ui.alert('Shareable link created' + (o.allow ? ' (only ' + o.allow + ')' : '') + ':\n' + url);
   }
@@ -163,11 +163,11 @@ function _inviteEmail(link, greet, invited) {
   return { to: link.email, subject: 'Yello investor room: your private access', body: body };
 }
 
-function _sendInvite(link, ui) {
+function _sendInvite(link, ui, requested) {
   // Indian names often lead with the surname, so ask what to call them.
   const guess = String(link.investor || '').trim().split(/\s+/)[0] || '';
   const greet = _ask(ui, 'Greeting — "Dear ___" (default: ' + (guess || 'there') + ')'); if (greet === null) return;
-  const m = _inviteEmail(link, greet || guess, !_fromRequest(link));
+  const m = _inviteEmail(link, greet || guess, !(requested || _fromRequest(link)));
   if (ui.alert('Send this email?\n\nTo: ' + m.to + (_cc() ? '\nCc: ' + _cc() : '') + '\nSubject: ' + m.subject + '\n\n' + m.body, ui.ButtonSet.YES_NO) !== ui.Button.YES) return ui.alert('Not sent. Use Yello Room → Email link for selected row… when ready.');
   _mailInvite(link, m);
   ui.alert('Sent to ' + m.to + (_cc() ? ' (cc ' + _cc() + ')' : '') + '.');
