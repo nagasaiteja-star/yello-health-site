@@ -307,12 +307,13 @@ function menuPublishDoc() {
   const folderName = _ask(ui, 'Room folder for this doc, e.g. "Pitch", "Round terms", "Diligence"' + (existing && existing.folder ? ' (currently "' + existing.folder + '")' : '')); if (folderName === null) return;
   const order = _ask(ui, 'Sort order (1 = first)'); if (order === null) return;
   const legal = ui.alert('Is this legal paper (term sheet, agreement)? It will carry the not-for-signature banner.', ui.ButtonSet.YES_NO) === ui.Button.YES;
+  const priv = ui.alert('Private to named links only (e.g. one investor\'s terms)?\n\nYes = only links that list "' + id + '" in their docs column see it; links set to "all" never do.', ui.ButtonSet.YES_NO) === ui.Button.YES;
   const checked = ui.alert('Has this doc passed ndian-claims-check AND been approved by Teja for investors?\n\nNo = saved as a draft that only preview links can see.', ui.ButtonSet.YES_NO) === ui.Button.YES;
   const ids = JSON.stringify(files.map(f => f.getId()));
   _withLock(() => {
     const sh = _tab('Docs');
     const vals = [id, title || (existing && existing.title) || id, pages, folder.getId(), checked ? 'Y' : 'N', legal ? 'Y' : 'N', checked ? new Date() : '', ids, existing ? existing.notes : '',
-                  type, folderName || (existing && existing.folder) || 'Documents', Number(order) || (existing && existing.order) || 99];
+                  type, folderName || (existing && existing.folder) || 'Documents', Number(order) || (existing && existing.order) || 99, priv ? 'Y' : 'N'];
     if (existing) sh.getRange(existing._row, 1, 1, vals.length).setValues([vals]); else sh.appendRow(vals);
   });
   ui.alert(pages + (type === 'html' ? ' slides (live HTML)' : ' pages') + ' registered for "' + title + '". ' +

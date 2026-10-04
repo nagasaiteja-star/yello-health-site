@@ -27,7 +27,7 @@ const ROOM = {
     Requests:  ['ts','name','email','firm','type','link','note','status','token','greeting','days','downloads','sent'],
     NDA:       ['ts','token','name','email','version'],
     Views:     ['first_seen','last_seen','token','email','doc','page','seconds','session'],
-    Docs:      ['doc','title','pages','folder_id','published','legal','claims_checked','file_ids','notes','type','folder','order'],
+    Docs:      ['doc','title','pages','folder_id','published','legal','claims_checked','file_ids','notes','type','folder','order','private'],
     Visits:    ['ts','token','email','investor','session','device','os','browser','screen','city','region','country','timezone','referrer'],
     Questions: ['ts','token','email','investor','doc','page','kind','rating','text','status'],
     Downloads: ['ts','token','email','investor','doc','format'],
@@ -280,13 +280,14 @@ function _ndaAccepted(token, email) {
   return _rows('NDA').some(r => String(r.token) === String(token) && _email(r.email) === email && r.version === ROOM.NDA_VERSION);
 }
 
-/** Published docs this link may see; a preview link (preview = Y) also sees unpublished ones. */
+/** Published docs this link may see; a preview link (preview = Y) also sees unpublished ones.
+ *  A private doc (private = Y, e.g. one investor's terms) shows only on links that name it, never on "all". */
 function _allowedDocs(link) {
   const allow = String(link.docs || 'all').split(',').map(s => s.trim()).filter(String);
   const all = allow.length === 0 || allow.indexOf('all') >= 0;
   const preview = _yes(link.preview);
   return _rows('Docs')
-    .filter(d => (preview || _yes(d.published)) && Number(d.pages) > 0 && (all || allow.indexOf(String(d.doc)) >= 0))
+    .filter(d => (preview || _yes(d.published)) && Number(d.pages) > 0 && (all ? (preview || !_yes(d.private)) : allow.indexOf(String(d.doc)) >= 0))
     .sort((a, b) => (Number(a.order) || 99) - (Number(b.order) || 99));
 }
 function _doc(link, id) { return _allowedDocs(link).filter(x => String(x.doc) === String(id))[0] || null; }
