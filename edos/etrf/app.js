@@ -144,8 +144,8 @@ const FOOT = '<div class="foot">NDIAN Healthcare Private Limited · CIN U86905TS
 function viewLogin() {
   let mobile = '';
   const step1 = () => {
-    app.innerHTML = `<div class="eyebrow">Yello · Diagnostics</div><h1>Send a sample online</h1>
-      <p class="sub">Fill the test requisition form on your phone. Fewer mistakes, fewer rejected samples.</p>
+    app.innerHTML = `<section class="hp"><div class="eyebrow">Yello · Diagnostics</div><h1>Send a sample online.</h1>
+      <p class="sub">Fill the test requisition form on your phone. Fewer mistakes, fewer rejected samples.</p></section>
       <form class="card" id="f1"><label class="f"><span class="l">Your registered mobile number</span><input type="tel" id="mob" inputmode="numeric" autocomplete="tel" placeholder="10-digit mobile" required></label>
       <div class="err" id="e"></div><div class="stickybar" style="position:static;padding:14px 0 0"><button class="primary" id="go">Send code</button></div>
       <p class="hint">We send a one-time code by SMS. No password to remember. If your number is not registered, ask your Yello contact to add you.</p></form>${FOOT}`;
@@ -163,7 +163,7 @@ function viewLogin() {
     };
   };
   const step2 = dev => {
-    app.innerHTML = `<div class="eyebrow">Yello · Diagnostics</div><h1>Enter your code</h1>
+    app.innerHTML = `<section class="hp"><div class="eyebrow">Yello · Diagnostics</div><h1>Enter your code.</h1></section>
       <form class="card" id="f2"><p class="sub">If ${esc(mobile)} is registered, a 6-digit code is on its way.</p>
       ${dev ? `<div class="banner warn"><b>Test mode.</b> Your code is <b>${esc(dev)}</b>. Real SMS is switched on at launch.</div>` : ''}
       <label class="f"><span class="l">6-digit code</span><input type="text" id="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></label>
@@ -188,8 +188,8 @@ const chip = s => { const [t, c] = STATUS_CHIP[s] || [s, 'line']; return `<span 
 async function viewHome() {
   if (me.user.role === 'lab') { location.hash = '#/list'; return; }
   const subs = await api('/api/submissions').catch(() => []);
-  app.innerHTML = `<div class="eyebrow">${me.client ? esc(me.client.name) : 'Yello admin'}</div><h1>New requisition</h1>
-    <p class="sub">Pick the form for the sample you are sending.</p>
+  app.innerHTML = `<section class="hp"><div class="eyebrow">${me.client ? esc(me.client.name) : 'Yello admin'}</div><h1>New requisition.</h1>
+    <p class="sub">Pick the form for the sample you are sending.</p></section>
     <div class="grid" style="margin-top:14px">${FORM_LIST.map(f => `<a class="tile" href="#/new/${f.id}"><b>${esc(f.title)}</b><span>${esc(f.blurb)}</span></a>`).join('')}</div>
     <h2>Recent</h2>${subs.length ? listTable(subs.slice(0, 8)) : '<p class="sub">Nothing sent yet.</p>'}
     <p class="row noprint"><a href="#/patients">Patients</a>${subs.length > 8 ? ' · <a href="#/list">See all</a>' : ''}${me.user.role === 'admin' ? '<a href="#/list">All submissions</a> · <a href="#/admin">Admin</a>' : ''}</p>${FOOT}`;

@@ -105,3 +105,17 @@ h2{border-radius:0 10px 10px 0;font-size:14px}
 .banner{border-radius:14px}
 table.list tr.click td{transition:background .15s}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ---------- gold hero panel (matches the directory) ---------- */
+.hp{position:relative;overflow:hidden;background:var(--brand);color:var(--brand-ink);border-radius:30px;padding:36px 30px 30px;margin:16px 0 14px}
+.hp::after{content:"";position:absolute;right:-80px;top:-100px;width:300px;height:300px;border-radius:50%;background:var(--brand-press);opacity:.55;pointer-events:none}
+.hp>*{position:relative;z-index:1}
+.hp .eyebrow{color:var(--brand-ink);opacity:.8;margin-top:0}
+.hp h1{color:var(--brand-ink);margin:12px 0 8px}
+.hp .sub{color:rgba(32,25,0,.82);font-weight:500}
+a.tile{border-left:6px solid var(--charcoal)}
+a.tile:nth-child(2){border-left-color:var(--teal)}a.tile:nth-child(3){border-left-color:var(--brand)}
+button.primary{box-shadow:none}
+.chip.gold{background:var(--brand)}
+header.top .chip.gold{background:var(--brand)}
+@media (max-width:520px){.hp{border-radius:24px;padding:26px 20px 22px}}
