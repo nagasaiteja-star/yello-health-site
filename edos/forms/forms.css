@@ -63,8 +63,53 @@ table.t td{height:19px}
   html{background:#fff}
   .sheet{margin:0;box-shadow:none;page-break-after:always;break-after:page}
   .sheet:last-child{page-break-after:auto;break-after:auto}
-  .noprint{display:none}
+  .noprint,.toolbar{display:none!important}
 }
 @page{size:A4;margin:0}
-.toolbar{position:sticky;top:0;z-index:5;background:#444;color:#fff;padding:8px 14px;font:600 13px var(--font-body);display:flex;gap:12px;align-items:center}
-.toolbar button{font:700 12px var(--font-body);background:var(--brand);color:var(--brand-ink);border:0;border-radius:6px;padding:6px 12px;cursor:pointer}
+.toolbar{position:sticky;top:0;z-index:5;background:#444;color:#fff;padding:8px 14px;font:600 13px var(--font-body);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.toolbar .tl{flex:1;min-width:120px}
+.toolbar .tb{display:flex;gap:8px}
+.toolbar button,.toolbar a.dl{font:700 13px var(--font-body);background:var(--brand);color:var(--brand-ink);border:0;border-radius:8px;padding:9px 14px;cursor:pointer;text-decoration:none;display:inline-block;min-height:38px}
+.toolbar button{background:#fff}
+
+/* ---------- phone / small screens: fluid single column (print stays A4) ---------- */
+@media screen and (max-width:820px){
+  body{font-size:15px}
+  .sheet{width:auto;height:auto;margin:10px;padding:14px 14px 18px;overflow:visible;display:block;box-shadow:none;border-radius:12px;border:1px solid var(--line)}
+  .hd{flex-wrap:wrap;gap:8px}
+  .hd img{height:30px}
+  .hd .tt{flex:1 1 100%;order:3;text-align:left}
+  .hd .tt h1{font-size:19px}
+  .hd .dc{margin-left:auto;white-space:normal}
+  .ft{position:static;margin-top:16px;flex-direction:column;gap:2px}
+  .sec{font-size:11px;padding:6px 10px;margin:14px 0 8px}
+  .r{flex-direction:column;align-items:stretch;gap:10px;margin:10px 0}
+  .r>.f{flex:none!important}
+  .f{flex-direction:column;align-items:stretch;gap:3px}
+  .f>span{font-size:10.5px;white-space:normal}
+  .f>i{flex:none;width:100%;height:30px;min-width:0}
+  .gl{font-size:10.5px}
+  .g{gap:8px 14px}
+  .o,.chk{font-size:15px}
+  .chk{margin:6px 0}
+  .cb{width:17px;height:17px;border-width:1.6px}
+  .cols2,.cols3,.cols4{columns:1}
+  .body div[style*="display:flex"]{flex-direction:column!important;gap:0!important}
+  .body div[style*="flex:1"]{min-width:0;max-width:100%;overflow-x:auto}
+  html,body{overflow-x:hidden}
+  .legal,.legal p{overflow-wrap:anywhere}
+  .o{white-space:normal}
+  .sig>div{overflow:hidden}
+  .sig{flex-direction:column;gap:10px}
+  .sig>div{height:70px;font-size:10px}
+  .bx>div{min-height:60px}
+  .bar{width:100%}
+  table.t{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table.t th,table.t td{white-space:normal;min-width:84px;font-size:13px}
+  .legal{font-size:14px;line-height:1.55}
+  .legal h4{font-size:14px}
+  .lab{padding:8px 10px}
+  .toolbar{padding:8px 12px}
+  .toolbar .tb{width:100%}
+  .toolbar .tb>*{flex:1;text-align:center}
+}
